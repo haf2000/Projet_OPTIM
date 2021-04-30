@@ -24,7 +24,10 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/vanillaSelectBox.css">
-   
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
 </head>
 
 <body>
@@ -195,9 +198,9 @@
           <p>Description Résultat</p>
         </div>
 
-        <div class="row">
+        <div class="row justify-content-center align-items-center">
 
-
+<table id="example" class="display" width="100%"></table>
 
         </div>
 
@@ -489,8 +492,69 @@ var option3 = document.createElement("option");
     init("brandsMulti2");
     init("brandsMulti3");
          </script>
+<!--  ************************* DATATABLES ******************-->
+<script type="text/javascript">
   
-    
+  var dataSet = [
+    [ "N1C1W1", "65", "66", "54", "54", "66", "55", "65", "66", "54", "54", "66", "55"]
+];
+ 
+$(document).ready(function() {
+    $('#example').DataTable( {
+        data: dataSet,
+        columns: [
+            { title: "Instance" },
+            { title: "Solution B&B" },
+            { title: "Temps B&B" },
+            { title: "Solution Prog-Dyn" },
+            { title: "Temps Prog-Dyn" },
+            { title: "Solution BestFit" },
+            { title: "Temps BestFit" },
+            { title: "Solution NextFit" },
+            { title: "Temps NextFit" },
+            { title: "Solution Méta1" },
+            { title: "Temps Méta1" },
+            { title: "Solution Méta2" },
+            { title: "Temps Méta2" }
+        ],
+        language: {
+            "lengthMenu": "Afficher _MENU_ ligne par page",
+            "zeroRecords": "Rien n'a été trouvé - désolé",
+            "info": "Affichage de la page _PAGE_ de _PAGES_",
+            "infoEmpty": "Aucune information disponible",
+            "infoFiltered": "(filtrés à partir de _MAX_ enregistrements au total)",
+            "paginate": {
+        "first":      "Premier",
+        "last":       "Dernier",
+        "next":       "Prochain",
+        "previous":   "Précédent"
+         },
+             "search":         "Rechercher :",
+
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+      
+    } );
+} );
+</script> 
+
+
+  
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>   
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>   
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+
 </body>
 
 </html>
