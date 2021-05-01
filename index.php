@@ -91,9 +91,10 @@
            <div class="btns-active col-lg-12">
       <button class="btn btn-dark" onClick="empty('brandsMulti')">Désélectionner tout</button>
       <button class="btn btn-dark" onClick="setValues('brandsMulti','all')">Sélectionner tout</button>
-     <button  class="btn btn-success" onClick="let table_instances_faciles = getValues('brandsMulti');console.log(table_instances_faciles);">Valider</button>&nbsp;
+     <button  class="btn btn-success" onClick="Validate_faciles('brandsMulti')">Valider</button>&nbsp;
 &nbsp;
 &nbsp;
+
     </div>
     <div class="btns-inactive" style="display:none";>
       <button class="demo" onClick="init('brandsMulti')">vanillaSelectBox()</button>
@@ -167,7 +168,7 @@
            <div class="btns-active3 col-lg-12">
       <button class="btn btn-dark" onClick="empty('brandsMulti3')">Désélectionner tout</button>
       <button class="btn btn-dark" onClick="setValues('brandsMulti3','all')">Sélectionner tout</button>
-     <button  class="btn btn-success" onClick="let table_instances_difficiles = getValues('brandsMulti3');console.log(table_instances_difficiles);">Valider</button>&nbsp;
+     <button  class="btn btn-success" onClick="let table_instances_difficiles = getValues('brandsMulti3');">Valider</button>&nbsp;
 &nbsp;
 &nbsp;
     </div>
@@ -492,7 +493,8 @@ var option3 = document.createElement("option");
     init("brandsMulti2");
     init("brandsMulti3");
          </script>
-<!--  ***************Lecture des instances + lancement fonction ******************-->
+
+<!-- <********************************BOUCLES DES INSTANCES********************************>-->
 <?php       
 
 function lire_instance_facile($instance){
@@ -560,16 +562,16 @@ $liste_poids_objets=array();
   $cap_bin = 1000;
 
   if($W == "W1"){
-    $poids_moyen = $cap_bin/3;
+    $poids_moyen = variant_fix($cap_bin/3);
   }
   if($W == "W2"){
-    $poids_moyen = $cap_bin/5;
+    $poids_moyen = variant_fix($cap_bin/5);
   }
   if($W == "W3"){
-    $poids_moyen = $cap_bin/7;
+    $poids_moyen = variant_fix($cap_bin/7) ;
   }
   if($W == "W4"){
-    $poids_moyen = $cap_bin/9;
+    $poids_moyen = variant_fix($cap_bin/9);
   }
 
 if($B == "B1"){
@@ -636,46 +638,30 @@ $liste_poids_objets=array();
 return $structure;
 }
 
-// ---------------------TEST--------------------------- 
-// $instance_facile = "N2C2W2_A.txt";
-// $structure1=lire_instance_facile($instance_facile);    
-// $instance_moyenne = "N1W1B3R0.txt";
-// $structure2=lire_instance_moyenne($instance_moyenne);
-// $instance_difficile = "HARD0.txt";
-// $structure3=lire_instance_difficile($instance_difficile);
+
+
 ?>
+<!--  ***************Lecture des instances + lancement fonction ******************-->
+ <script type="text/javascript">
+   var dataSet=[];
+  function Validate_faciles(id){
+   var table_instances_faciles = getValues(id);
+  // console.log((table_instances_faciles));
+    
+   for (var i =0;i < table_instances_faciles.length; i++) {
+     var inst = table_instances_faciles[i];
 
-<!-- <********************************BOUCLES DES INSTANCES********************************>-->
-<script type="text/javascript">
-let inst1 = brands;
-let inst2 = brands2;
-let inst3 = brands3;
+     var str = <?php   
+     $inst = 'N1C2W4_A.txt';
+     // HNA ADEL HABIT NRECUPERE LA VARIABLE var inst w ndirha f $inst bech nmedha l la fonction li lteht 
+     echo json_encode(lire_instance_facile($inst)); 
+     ?>;
 
-//Instances faciles
-for (var i = 0; i < inst1.length ; i++) {
+    console.log(str);
+   }
 
-
-
-
-}
-
-//Instances moyennes
-for (var i = 0; i < inst2.length ; i++) {
-
-
-
-
-}
-//Instances difficiles
-for (var i = 0; i < inst3.length ; i++) {
-
-
-
-
-}
-
-</script>
-
+  }
+ </script>
 
 <!--  ************************* DATATABLES ****************************************-->
 <script type="text/javascript">
