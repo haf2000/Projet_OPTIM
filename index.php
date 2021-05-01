@@ -130,7 +130,7 @@
            <div class="btns-active2 col-lg-12">
       <button class="btn btn-dark" onClick="empty('brandsMulti2')">Désélectionner tout</button>
       <button class="btn btn-dark" onClick="setValues('brandsMulti2','all')">Sélectionner tout</button>
-     <button  class="btn btn-success" onClick="let table_instances_moyennes = getValues('brandsMulti2');console.log(table_instances_moyennes);">Valider</button>&nbsp;
+     <button  class="btn btn-success" onClick="Validate_moyennes('brandsMulti2')">Valider</button>&nbsp;
 &nbsp;
 &nbsp;
     </div>
@@ -168,7 +168,7 @@
            <div class="btns-active3 col-lg-12">
       <button class="btn btn-dark" onClick="empty('brandsMulti3')">Désélectionner tout</button>
       <button class="btn btn-dark" onClick="setValues('brandsMulti3','all')">Sélectionner tout</button>
-     <button  class="btn btn-success" onClick="let table_instances_difficiles = getValues('brandsMulti3');">Valider</button>&nbsp;
+     <button  class="btn btn-success" onClick="Validate_difficiles('brandsMulti3')">Valider</button>&nbsp;
 &nbsp;
 &nbsp;
     </div>
@@ -495,177 +495,118 @@ var option3 = document.createElement("option");
          </script>
 
 <!-- <********************************BOUCLES DES INSTANCES********************************>-->
-<?php       
 
-function lire_instance_facile($instance){
-  $ressource = fopen('assets/Scholl/Scholl_1/'.$instance, 'rb'); 
-  //Nombre d'objets (N1 = 50, N2 = 100, N3 = 200, N4 = 500)
-  //Capacité des bins (C=1000)
-  //W : Intervalle des poids des objets (W1 = [1, 100], W2 = [20, 100], W4 = [30, 100])  
-  
-  $liste_poids_objets=array();
- $N = substr($instance,0, -10); // retourne N1/N2/N3/N4
-  $C = substr($instance,2, -8); // retourne C1/C2/C3
-  $W = substr($instance,4, -6); // retourne W1,W2,W4
-
-
-  if($C == "C1") $cap_bin =100;
-  if($C == "C2") $cap_bin =120;
-  if($C == "C3") $cap_bin =150;
-
-  if($W == "W1"){
-    $poids_min = 1; $poids_max = 100;
-  }
-  if($W == "W2"){
-    $poids_min = 20; $poids_max = 100;
-  }
-  if($W == "W4"){
-    $poids_min = 30; $poids_max = 100;
-  }
-
-
-   $i = 0;
-   while(!feof($ressource)){
-     $liste_poids_objets[$i] = fgets($ressource);
-     $i++;
-   }
-
- $Nbr_objets = count($liste_poids_objets);
-  $structure = array(
-    "capacite" => $cap_bin ,
-    "nombre_objets" => $Nbr_objets,
-    "poids_min" => $poids_min,
-    "poids_max" => $poids_max,
-    "liste_poids_objets" => $liste_poids_objets
-  );
-
-return $structure;
-}
-            
-     
-function lire_instance_moyenne($instance){
- /*
-Les instances reçoivent des noms "NxWyBzRv.BPP" où
-x = 1 (pour n = 50), x = 2 (n = 100), x = 3 (n = 200), x = 4 (n = 500)
-y = 1 (pour poids moyen = c / 3), y = 2 (c / 5), y = 3 (c / 7), y = 4 (c / 9)
-z = 1 (pour delta = 20%), z = 2 (50%), z = 3 (90%)
-v = 0..9 pour les 10 instances de chaque classe
- */
-  $ressource = fopen('assets/Scholl/Scholl_2/'.$instance, 'rb'); 
-$liste_poids_objets=array();
- $N = substr($instance,0, -10); // retourne N1/N2/N3/N4
-  $W = substr($instance,2, -8); // retourne W1,W2,W3,W4
-  $B = substr($instance,4, -6); // retourne B1,B2,B3,B4
-  $R = substr($instance,6, -4); // retourne R0..R9
-
-
-  $cap_bin = 1000;
-
-  if($W == "W1"){
-    $poids_moyen = variant_fix($cap_bin/3);
-  }
-  if($W == "W2"){
-    $poids_moyen = variant_fix($cap_bin/5);
-  }
-  if($W == "W3"){
-    $poids_moyen = variant_fix($cap_bin/7) ;
-  }
-  if($W == "W4"){
-    $poids_moyen = variant_fix($cap_bin/9);
-  }
-
-if($B == "B1"){
-    $delta = 20/100;
-  }
-  if($B == "B2"){
-    $delta = 50/100;
-  }
-  if($B == "B3"){
-    $delta = 90/100;
-  }
-
-   $i = 0;
-   while(!feof($ressource)){
-    $p = fgets($ressource);
-     $liste_poids_objets[$i] = $p;
-     $i++;
-   }
-
-  $Nbr_objets = count($liste_poids_objets);
-  
-  $structure = array(
-    "capacite" => $cap_bin ,
-    "nombre_objets" => $Nbr_objets,
-    "poids_moyen" => $poids_moyen,
-    "delta" => $delta,
-    "liste_poids_objets" => $liste_poids_objets
-  );
-
-return $structure;
-}
-
-
-function lire_instance_difficile($instance){
- /*
-parameter values
-n 200
-c 100000
-wj  from [20000,35000] for j=1,...,n
-
- */
-  $ressource = fopen('assets/Scholl/Scholl_3/'.$instance, 'rb'); 
-$liste_poids_objets=array();
-  $cap_bin = 100000;
-  $poids_max = 35000;
-  $poids_min = 20000;
-   $i = 0;
-   while(!feof($ressource)){
-    $p = fgets($ressource);
-     $liste_poids_objets[$i] = $p;
-     $i++;
-   }
-
-  $Nbr_objets = count($liste_poids_objets);
-  
-  $structure = array(
-    "capacite" => $cap_bin ,
-    "nombre_objets" => $Nbr_objets,
-    "poids_min" => $poids_min,
-    "poids_max" => $poids_max,
-    "liste_poids_objets" => $liste_poids_objets
-  );
-
-return $structure;
-}
-
-
-
-?>
-<!--  ***************Lecture des instances + lancement fonction ******************-->
- <script type="text/javascript">
-   var dataSet=[];
-  function Validate_faciles(id){
-   var table_instances_faciles = getValues(id);
-  // console.log((table_instances_faciles));
-    
-   for (var i =0;i < table_instances_faciles.length; i++) {
-     var inst = table_instances_faciles[i];
-
-     var str = <?php   
-     $inst = 'N1C2W4_A.txt';
-     // HNA ADEL HABIT NRECUPERE LA VARIABLE var inst w ndirha f $inst bech nmedha l la fonction li lteht 
-     echo json_encode(lire_instance_facile($inst)); 
-     ?>;
-
-    console.log(str);
-   }
-
-  }
- </script>
-
-<!--  ************************* DATATABLES ****************************************-->
 <script type="text/javascript">
   
+
+//  ***************Lecture des instances + lancement fonction ******************
+   var dataSet=[];
+   var str_faciles =[];
+   var str_moyennes = [];
+   var str_difficiles = [];
+   var j=0;
+  function Validate_faciles(id){
+  
+   $(document).ready(function() {
+      j=0;
+   var table_instances_faciles = getValues(id);
+   for (var i = 0 ; i <table_instances_faciles.length ; i++) {
+     var inst = table_instances_faciles[i];
+
+    var str; // va contenir la structure en cours 
+     
+    $.ajax({
+   url: "./instance_facile.php",
+   method: "POST",
+   data: {inst: inst},
+   success: function (result) {
+    //réponse de la fonction
+     str = result;
+     str_faciles[j] = str;
+     j++;
+    // console.log(result);
+   }
+ });
+   
+   
+  
+   }
+
+   console.log(str_faciles);
+
+
+});
+
+
+  }
+
+
+  //-------------------------------------------------------------------------------
+  function Validate_moyennes(id){
+  
+   $(document).ready(function() {
+    j=0;
+   var table_instances_moyennes = getValues(id);
+   for (var i = 0 ; i <table_instances_moyennes.length ; i++) {
+     var inst = table_instances_moyennes[i];
+
+    var str; // va contenir la structure en cours 
+     
+    $.ajax({
+   url: "./instance_moyenne.php",
+   method: "POST",
+   data: {inst: inst},
+   success: function (result) {
+    //réponse de la fonction
+     str = result;
+     str_moyennes[j] = str;
+     j++;
+   }
+ }); 
+  
+   }
+
+   console.log(str_moyennes);
+});
+
+
+  }
+
+//-------------------------------------------------------------------------------
+  function Validate_difficiles(id){
+  
+   $(document).ready(function() {
+    j=0;
+   var table_instances_difficiles = getValues(id);
+   for (var i = 0 ; i <table_instances_difficiles.length ; i++) {
+     var inst = table_instances_difficiles[i];
+
+    var str; // va contenir la structure en cours 
+     
+    $.ajax({
+   url: "./instance.php",
+   method: "POST",
+   data: {inst: inst},
+   success: function (result) {
+    //réponse de la fonction
+     str = result;
+     str_difficiles[j] = str;
+     j++;
+   }
+ }); 
+  
+   }
+
+   console.log(str_difficiles);
+});
+
+
+  }
+
+
+
+
+// ********************************* DATATABLES ******************************************
   var dataSet = [
     [ "N1C1W1", "65", "66", "54", "54", "66", "55", "65", "66", "54", "54", "66", "55"]
 ];
