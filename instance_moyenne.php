@@ -1,5 +1,7 @@
 <?php 
-     
+    
+ include "methode.php";
+    
 function lire_instance_moyenne($instance){
  /*
 Les instances reçoivent des noms "NxWyBzRv.BPP" où
@@ -62,16 +64,54 @@ if($B == "B1"){
 
 return $structure;
 }
+
+///////////////////////////////////////////////
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "optim";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 //-------------------------------------------------------------------------
    if(isset($_POST['inst'])) {
    $inst = $_POST['inst']; 
    $structure = lire_instance_moyenne($inst);
-   $str =  json_encode($structure);
-   echo $str;
+  
+  // recuperer les paramètres
+  $instance_name = $structure["nom_inst"];
+  $capacite = $structure["capacite"];
+  $nombre_objets = $structure["nombre_objets"];
+  $liste_obj = $structure["liste_poids_objets"];
+  $poids_moyen = $structure["poids_moyen"];
+  // lancer les méthodes et sauvegarder les résultats
+    // BEST FIT
+   $begin_time = array_sum(explode(' ', microtime()));
+   $solBF = BesfFit($liste_obj,$nombre_objets,$capacite);
+    $end_time = array_sum(explode(' ', microtime()));
+    $tempsBF = ($end_time-$begin_time)*0.000001;
+    // NEXT FIT
+  $begin_time = array_sum(explode(' ', microtime()));
+  $solNF = NextFit($liste_obj,$nombre_objets,$capacite);
+  $end_time = array_sum(explode(' ', microtime()));
+  $tempsNF = ($end_time-$begin_time)*0.000001;
+
+
+$sql = "INSERT INTO `resultats`(`nom_instance`, `solBF`, `tempsBF`, `solNF`, `tempsNF`, `type_instance`) VALUES ('$instance_name', '$solBF' , '$tempsBF' ,'$solNF','$tempsNF','1')";
+
+if ($conn->query($sql) === TRUE) {
+  echo "element inséré !";
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}
+   $conn->close();
    die();      
     }
-
-
 
 
  ?>

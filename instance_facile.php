@@ -1,4 +1,7 @@
 <?php 
+
+include "methode.php";
+
 function lire_instance_facile($instance){
   $ressource = fopen('assets/Scholl/Scholl_1/'.$instance, 'rb'); 
   //Nombre d'objets (N1 = 50, N2 = 100, N3 = 200, N4 = 500)
@@ -32,7 +35,7 @@ function lire_instance_facile($instance){
      $i++;
    }
 
- $Nbr_objets = count($liste_poids_objets);
+ $Nbr_objets = count($liste_poids_objets)-1;
   $structure = array(
     "nom_inst" =>  $instanceNAME,
     "capacite" => $cap_bin ,
@@ -44,13 +47,59 @@ function lire_instance_facile($instance){
 
 return $structure;
 }
+///////////////////////////////////////////////
+  // $str =  json_encode($structure);
+  // echo $structure
+///////////////////////////////////////////////
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "optim";
 
-//-------------------------------------------------------------------------
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+  //  echo "Connected successfully";
+
+
+
    if(isset($_POST['inst'])) {
+  // recuperer le nom de l'instance
    $inst = $_POST['inst']; 
    $structure = lire_instance_facile($inst);
-   $str =  json_encode($structure);
-   echo $str;
+  // recuperer les paramètres
+  $instance_name = $structure["nom_inst"];
+  $capacite = $structure["capacite"];
+  $nombre_objets = $structure["nombre_objets"];
+  $liste_obj = $structure["liste_poids_objets"];
+  $poids_min = $structure["poids_min"];
+  $poids_max = $structure["poids_max"];
+  // lancer les méthodes et sauvegarder les résultats
+    // BEST FIT
+   $begin_time = array_sum(explode(' ', microtime()));
+   $solBF = BesfFit($liste_obj,$nombre_objets,$capacite);
+    $end_time = array_sum(explode(' ', microtime()));
+    $tempsBF = ($end_time-$begin_time)*0.000001;
+    // NEXT FIT
+  $begin_time = array_sum(explode(' ', microtime()));
+  $solNF = NextFit($liste_obj,$nombre_objets,$capacite);
+  $end_time = array_sum(explode(' ', microtime()));
+  $tempsNF = ($end_time-$begin_time)*0.000001;
+
+ //echo "BF : ".$solBF." | NF : ".$solNF;
+
+$sql = "INSERT INTO `resultats`(`nom_instance`, `solBF`, `tempsBF`, `solNF`, `tempsNF`, `type_instance`) VALUES ('$instance_name', '$solBF' , '$tempsBF' ,'$solNF','$tempsNF','0')";
+
+if ($conn->query($sql) === TRUE) {
+  echo "element inséré !";
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}
+   $conn->close();
    die();      
     }
 

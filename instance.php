@@ -1,9 +1,4 @@
-<?php
-
-
-            
-
-
+<?php         
 function lire_instance_difficile($instance){
  /*
 parameter values

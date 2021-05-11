@@ -28,6 +28,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
+<style type="text/css">
+  div.dataTables_wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
+</style>
+
 </head>
 
 <body>
@@ -196,12 +203,12 @@
 
         <div class="section-title">
           <h2>Résultat obtenue</h2>
-          <p>Description Résultat</p>
+           <button  class="btn btn-light" onClick="Show_dataTable();" style="color: white,font-size:bold;">Afficher résultats</button>
         </div>
 
         <div class="row justify-content-center align-items-center">
 
-<table id="example" class="display" width="100%"></table>
+<table id="example" class="display nowrap" width="100%"></table>
 
         </div>
 
@@ -500,13 +507,10 @@ var option3 = document.createElement("option");
   
 
 //  ***************Lecture des instances + lancement fonction ******************
-   var dataSet=[];
-   var str_faciles =[];
-   var str_moyennes = [];
-   var str_difficiles = [];
-   var j=0;
-  function Validate_faciles(id){
+
   
+  function Validate_faciles(id){
+
    $(document).ready(function() {
       j=0;
    var table_instances_faciles = getValues(id);
@@ -520,32 +524,25 @@ var option3 = document.createElement("option");
    method: "POST",
    data: {inst: inst},
    success: function (result) {
-    //réponse de la fonction
-     str = result;
-     str_faciles[j] = str;
-     j++;
-    // console.log(result);
+    console.log(result);
    }
  });
    
-   
-  
+
    }
 
-   console.log(str_faciles);
-
-
 });
-
 
   }
 
 
-  //-------------------------------------------------------------------------------
-  function Validate_moyennes(id){
+//-------------------------------------------------------------------------------
   
+//------------------------------------------------------------------------------------
+  function Validate_moyennes(id){
+
+
    $(document).ready(function() {
-    j=0;
    var table_instances_moyennes = getValues(id);
    for (var i = 0 ; i <table_instances_moyennes.length ; i++) {
      var inst = table_instances_moyennes[i];
@@ -557,26 +554,20 @@ var option3 = document.createElement("option");
    method: "POST",
    data: {inst: inst},
    success: function (result) {
-    //réponse de la fonction
-     str = result;
-     str_moyennes[j] = str;
-     j++;
+    console.log(result);
    }
  }); 
   
    }
 
-   console.log(str_moyennes);
 });
-
 
   }
 
 //-------------------------------------------------------------------------------
   function Validate_difficiles(id){
-  
+
    $(document).ready(function() {
-    j=0;
    var table_instances_difficiles = getValues(id);
    for (var i = 0 ; i <table_instances_difficiles.length ; i++) {
      var inst = table_instances_difficiles[i];
@@ -588,34 +579,124 @@ var option3 = document.createElement("option");
    method: "POST",
    data: {inst: inst},
    success: function (result) {
-    //réponse de la fonction
-     str = result;
-     str_difficiles[j] = str;
-     j++;
+    console.log("success");
    }
  }); 
   
    }
 
-   console.log(str_difficiles);
 });
-
 
   }
 
-
-
-
-// ********************************* DATATABLES ******************************************
-  var dataSet = [
-    [ "N1C1W1", "65", "66", "54", "54", "66", "55", "65", "66", "54", "54", "66", "55"]
-];
+//
  
+// $(document).ready(function() {
+//     $('#example').DataTable( {
+//         data: dataSet,
+//         columns: [
+//             { title: "Instance" },
+//             { title: "Solution B&B" },
+//             { title: "Temps B&B" },
+//             { title: "Solution Prog-Dyn" },
+//             { title: "Temps Prog-Dyn" },
+//             { title: "Solution BestFit" },
+//             { title: "Temps BestFit" },
+//             { title: "Solution NextFit" },
+//             { title: "Temps NextFit" },
+//             { title: "Solution Méta1" },
+//             { title: "Temps Méta1" },
+//             { title: "Solution Méta2" },
+//             { title: "Temps Méta2" }
+//         ],
+//         language: {
+//             "lengthMenu": "Afficher _MENU_ ligne par page",
+//             "zeroRecords": "Rien n'a été trouvé - désolé",
+//             "info": "Affichage de la page _PAGE_ de _PAGES_",
+//             "infoEmpty": "Aucune information disponible",
+//             "infoFiltered": "(filtrés à partir de _MAX_ enregistrements au total)",
+//             "paginate": {
+//         "first":      "Premier",
+//         "last":       "Dernier",
+//         "next":       "Prochain",
+//         "previous":   "Précédent"
+//          },
+//              "search":         "Rechercher :",
+
+//         },
+//         dom: 'Bfrtip',
+//         buttons: [
+//             'copy', 'csv', 'excel', 'pdf', 'print'
+//         ]
+      
+//     } );
+// } );
+
+
+
+</script> 
+<?php 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "optim";
+$connexion = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($connexion->connect_error) {
+  die("Connection failed: " . $connexion->connect_error);
+}
+  //  echo "Connected successfully";
+$sql = "SELECT * FROM `resultats` WHERE 1";
+$result = $connexion->query($sql);
+
+$rows = array(); 
+
+if ($result->num_rows > 0) {
+  // output data of each row
+  $i=0;
+  while($row = $result->fetch_assoc()) {
+  $rows[$i] = $row;
+   $i++;
+  }
+} else {
+  echo "0 results";
+}
+
+$connexion->close();
+ ?>
+
+<script type="text/javascript">
+
+  function Show_dataTable(){
+
+
+  var lignes_bdd = <?php echo json_encode($rows); ?>;
+  var dataSet = [];
+  
+  console.log(lignes_bdd);
+  for (var i = 0; i < lignes_bdd.length; i++) {
+    if(lignes_bdd[i].type_instance == '0'){
+      $type = "Facile";
+    }else{
+      if(lignes_bdd[i].type_instance == '1'){
+      $type = "Moyenne";
+    }else{
+      $type = "Difficile";
+    }
+    }
+    dataSet[i] = new Array(lignes_bdd[i].nom_instance,$type,lignes_bdd[i].solBB,lignes_bdd[i].tempsBB,lignes_bdd[i].solDP,lignes_bdd[i].tempsDP,lignes_bdd[i].solBF,lignes_bdd[i].tempsBF,lignes_bdd[i].solNF,lignes_bdd[i].tempsNF,lignes_bdd[i].solMet_one,lignes_bdd[i].tempsMet_one,lignes_bdd[i].solMet_two,lignes_bdd[i].tempsMet_two);
+  }
+
 $(document).ready(function() {
-    $('#example').DataTable( {
+
+  
+
+     $('#example').DataTable( {
         data: dataSet,
         columns: [
             { title: "Instance" },
+            {title : "Type instance"},
             { title: "Solution B&B" },
             { title: "Temps B&B" },
             { title: "Solution Prog-Dyn" },
@@ -647,13 +728,20 @@ $(document).ready(function() {
         dom: 'Bfrtip',
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "scrollX": true
       
     } );
-} );
-</script> 
+
+});
+
+  }
 
 
+</script>
+
+<script type="text/javascript" src="assets/js/BestFit.js"></script>
+<script type="text/javascript" src="assets/js/NextFit.js"></script>
   
 </script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>   
