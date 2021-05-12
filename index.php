@@ -231,7 +231,46 @@
         <div class="row">
 <canvas id="myChart"></canvas>
         </div>
+      <br>
+      <br>
+        <div class="row">
+<canvas id="myChart2"></canvas>
+        </div>
+      <br>
+      <br>
+     <div class="row">
+   <div class="col-lg-4">
+     <canvas id="myChart3" height="400"></canvas>
+     
+   </div>
+   <div class="col-lg-4" >
+     <canvas id="myChart4" height="400"></canvas>
 
+   </div>
+   <div class="col-lg-4" >
+     <canvas id="myChart5" height="400"></canvas>
+   </div>
+     </div>
+     <br>
+      <br>
+     <div class="row">
+   <div class="col-lg-4">
+     <canvas id="myChart6" height="400"></canvas>
+
+   </div>
+   <div class="col-lg-4" >
+     <canvas id="myChart7" height="400"></canvas>
+
+   </div>
+   <div class="col-lg-4" >
+     <canvas id="myChart8" height="400"></canvas>
+   </div>
+     </div>
+<br>
+      <br>
+     <div class="row">
+     <canvas id="myChart9"></canvas>       
+     </div>
       </div>
     </section><!-- End Portfolio Section -->
 
@@ -794,6 +833,12 @@ const methodeNF = [];
 const methodePD = [];
 const methodeMT1 = [];
 const methodeMT2 = [];
+const methodeBB_nombrebins = [];
+const methodeBF_nombrebins = [];
+const methodeNF_nombrebins = [];
+const methodePD_nombrebins = [];
+const methodeMT1_nombrebins = [];
+const methodeMT2_nombrebins = [];
  for (var i = 0; i < instances.length; i++) {
    labels[i] = instances[i].nom_instance;
    methodeBB[i] = instances[i].tempsBB;
@@ -802,6 +847,12 @@ const methodeMT2 = [];
    methodePD[i] = instances[i].tempsDP;
    methodeMT1[i] = instances[i].tempsMet_one;
    methodeMT2[i] = instances[i].tempsMet_two;
+   methodeBB_nombrebins[i] = instances[i].solBB;
+   methodeBF_nombrebins[i] = instances[i].solBF;
+   methodeNF_nombrebins[i] = instances[i].solNF;
+   methodePD_nombrebins[i] = instances[i].solDP;
+   methodeMT1_nombrebins[i] = instances[i].solMet_one;
+   methodeMT2_nombrebins[i] = instances[i].solMet_two;
  }
 
 
@@ -877,7 +928,7 @@ const config = {
       },
       title: {
         display: true,
-        text: 'Comparaison entre les temps d\'exécution de toutes les méthodes'
+        text: 'Comparaison du temps d\'exécution entre toutes les méthodes'
       }
     }
   },
@@ -886,6 +937,437 @@ const config = {
   var myChart = new Chart(
     document.getElementById('myChart'),
     config
+  );
+//----------------------------Charte 2--------------------------------
+
+
+const data2 = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Branch&Bound',
+      data: methodeBB_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Prog-Dynamique',
+      data: methodePD_nombrebins ,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+    ,
+    {
+      label: 'Best Fit',
+      data: methodeBF_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Next Fit',
+      data: methodeNF_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Méta-heuristique 1',
+      data: methodeMT1_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Méta-heuristique 2',
+      data: methodeMT2_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config2 = {
+  type: 'line',
+  data: data2,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparaison entre le nombre de bins obtenu de toutes les méthodes'
+      }
+    }
+  },
+};
+
+  var myChart2 = new Chart(
+    document.getElementById('myChart2'),
+    config2
+  );
+
+
+  //----------------------------Charte 3--------------------------------
+
+
+const data3 = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Branch&Bound',
+      data: methodeBB,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Prog-Dynamique',
+      data: methodePD,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config3 = {
+  type: 'line',
+  data: data3,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparaison du temps d\'exécution entre les méthodes exactes'
+      }
+    }
+  },
+};
+
+  var myChart3 = new Chart(
+    document.getElementById('myChart3'),
+    config3
+  );
+
+   //----------------------------Charte 4--------------------------------
+
+
+const data4 = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Best Fit',
+      data: methodeBF,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Next Fit',
+      data: methodeNF,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config4 = {
+  type: 'line',
+  data: data4,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparaison du temps d\'exécution entre les heuristiques'
+      }
+    }
+  },
+};
+
+  var myChart4 = new Chart(
+    document.getElementById('myChart4'),
+    config4
+  );
+
+
+   //----------------------------Charte 5--------------------------------
+
+
+const data5 = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Méta-heuristique 1',
+      data: methodeMT1,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Méta-heuristique 2',
+      data: methodeMT2,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config5 = {
+  type: 'line',
+  data: data5,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparaison du temps d\'exécution entre les Méta-heuristiques'
+      }
+    }
+  },
+};
+
+  var myChart5 = new Chart(
+    document.getElementById('myChart5'),
+    config5
+  );
+
+   //----------------------------Charte 6--------------------------------
+
+
+const data6 = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Branch & Bound',
+      data: methodeBB_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Prog-Dynamique',
+      data: methodePD_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config6 = {
+  type: 'line',
+  data: data6,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparaison du nombre de bins entre les méthodes exactes'
+      }
+    }
+  },
+};
+
+  var myChart6 = new Chart(
+    document.getElementById('myChart6'),
+    config6
+  );
+
+
+   //----------------------------Charte 7--------------------------------
+
+
+const data7 = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Best Fit',
+      data: methodeBF_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Next Fit',
+      data: methodeNF_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config7 = {
+  type: 'line',
+  data: data7,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparaison du nombre de bins entre les heuristiques'
+      }
+    }
+  },
+};
+
+  var myChart7 = new Chart(
+    document.getElementById('myChart7'),
+    config7
+  );
+
+   //----------------------------Charte 8--------------------------------
+
+
+const data8 = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Méta-heuristique 1',
+      data: methodeMT1_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Méta-heuristique 2',
+      data: methodeMT2_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config8 = {
+  type: 'line',
+  data: data8,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparaison du nombre de bins entre les Méta-heuristiques'
+      }
+    }
+  },
+};
+
+  var myChart8 = new Chart(
+    document.getElementById('myChart8'),
+    config8
+  );
+
+
+     //----------------------------Charte 9--------------------------------
+ // on calcule le temps d execution moyen de toutes les methodes
+const donnees = [];
+let temps_moy = 0;
+for (var i = 0; i < methodeBB.length; i++) {
+  temps_moy = temps_moy + parseFloat(methodeBB[i]);
+}
+ temps_moy = temps_moy/(instances.length);
+donnees[0] = temps_moy;
+//----------------------------------------------
+temps_moy = 0;
+for (var i = 0; i < methodePD.length; i++) {
+  temps_moy = temps_moy + parseFloat(methodePD[i]);
+}
+temps_moy = temps_moy/(instances.length);
+donnees[1] = temps_moy;
+//----------------------------------------------
+temps_moy = 0;
+for (var i = 0; i < methodeBF.length; i++) {
+  temps_moy = temps_moy + parseFloat(methodeBF[i]);
+}
+temps_moy = temps_moy/(instances.length);
+donnees[2] = temps_moy;
+//----------------------------------------------
+
+temps_moy = 0;
+for (var i = 0; i < methodeNF.length; i++) {
+  temps_moy = temps_moy + parseFloat(methodeNF[i]);
+}
+temps_moy = temps_moy/(instances.length);
+donnees[3] = temps_moy;
+//----------------------------------------------
+
+temps_moy = 0;
+for (var i = 0; i < methodeMT1.length; i++) {
+  temps_moy = temps_moy + parseFloat(methodeMT1[i]);
+}
+temps_moy = temps_moy/(instances.length);
+donnees[4] = temps_moy;
+//----------------------------------------------
+
+temps_moy = 0;
+for (var i = 0; i < methodeMT2.length; i++) {
+  temps_moy = temps_moy +parseFloat(methodeMT2[i]);
+}
+temps_moy = temps_moy/(instances.length);
+donnees[5] = temps_moy;
+//----------------------------------------------
+console.log(donnees);
+const backgroundColorVAR2 = [
+      'rgba(255, 99, 132, 0.5)',
+      'rgba(255, 159, 64, 0.5)',
+      'rgba(255, 205, 86, 0.5)',
+      'rgba(75, 192, 192, 0.5)',
+      'rgba(54, 162, 235, 0.5)',
+      'rgba(153, 102, 255, 0.5)',
+      'rgba(201, 203, 207, 0.5)'
+    ];
+   const borderColorVAR2 = [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ];
+const  labels2 = ["Branch & Bound","Prog-Dynamique","Best Fit","Next Fit","Méta-heuristique 1","Méta-heuristique 2"];
+const data9 = {
+  labels: labels2,
+  datasets: [
+    {
+      label: 'Temps moyen d\'exécution',
+      data: donnees,
+      borderColor: borderColorVAR2,
+      backgroundColor: backgroundColorVAR2,
+    }
+  ]
+};
+
+const config9 = {
+  type: 'bar',
+  data: data9,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Temps moyen d\'exécution de toutes les instances de chaque méthode'
+      }
+    }
+  },
+};
+
+  var myChart9 = new Chart(
+    document.getElementById('myChart9'),
+    config9
   );
 </script>
 <!-- *********************************************************************************** -->
