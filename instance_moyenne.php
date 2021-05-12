@@ -51,7 +51,7 @@ if($B == "B1"){
      $i++;
    }
 
-  $Nbr_objets = count($liste_poids_objets);
+  $Nbr_objets = count($liste_poids_objets)-1;
   
   $structure = array(
    "nom_inst" =>  $instanceNAME,
@@ -90,19 +90,30 @@ if ($conn->connect_error) {
   $liste_obj = $structure["liste_poids_objets"];
   $poids_moyen = $structure["poids_moyen"];
   // lancer les méthodes et sauvegarder les résultats
-    // BEST FIT
-   $begin_time = array_sum(explode(' ', microtime()));
-   $solBF = BesfFit($liste_obj,$nombre_objets,$capacite);
-    $end_time = array_sum(explode(' ', microtime()));
-    $tempsBF = ($end_time-$begin_time)*0.000001;
+      // BEST FIT
+  $timestart=microtime(true);
+  $solBF = BesfFit($liste_obj,$nombre_objets,$capacite);
+  $timeend=microtime(true);
+  $time=$timeend-$timestart;
+  $tempsBF = number_format($time, 3);
+    
+
     // NEXT FIT
-  $begin_time = array_sum(explode(' ', microtime()));
+  $timestart=microtime(true);
   $solNF = NextFit($liste_obj,$nombre_objets,$capacite);
-  $end_time = array_sum(explode(' ', microtime()));
-  $tempsNF = ($end_time-$begin_time)*0.000001;
+  $timeend=microtime(true);
+  $time=$timeend-$timestart;
+  $tempsNF = number_format($time, 3);
+  
 
+     // BRANCH & BOUND
+  $timestart=microtime(true);
+  $solBB = Branch_Bound($liste_obj,$nombre_objets,$capacite);
+  $timeend=microtime(true);
+  $time=$timeend-$timestart;
+  $tempsBB = number_format($time, 3);
 
-$sql = "INSERT INTO `resultats`(`nom_instance`, `solBF`, `tempsBF`, `solNF`, `tempsNF`, `type_instance`) VALUES ('$instance_name', '$solBF' , '$tempsBF' ,'$solNF','$tempsNF','1')";
+$sql = "INSERT INTO `resultats`(`nom_instance`,`solBB`, `tempsBB`, `solBF`, `tempsBF`, `solNF`, `tempsNF`, `type_instance`, `poids_min`, `poids_max`, `capacite`, `nombre_objets` ) VALUES ('$instance_name','$solBB','$tempsBB', '$solBF' , '$tempsBF' ,'$solNF','$tempsNF','1', '$poids_min','$poids_max', '$capacite','$nombre_objets')";
 
 if ($conn->query($sql) === TRUE) {
   echo "element inséré !";

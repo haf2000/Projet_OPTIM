@@ -1,68 +1,57 @@
 <?php 
-function Branch_Bound($weight,$n,$capacity){
-    $minBoxes = $n; # initialiser la valeur optimale de boites à n
-    $Nodes = [];  # les noeuds à traiter
-    $wRemaining = [$capacity]*$n;  # initialiser les poids restants dans chaque boite [c,c,c,.......c]
-    $numBoxes = 0;  # initialiser le nombre de boites utilisées
+//liste des objets 
+  //items = [5,5,4,15,7,8,1,10,6,12];
+   //nombre d'objets à insérer
+  // var n= items.length;
 
- for($k=0; $k < $n; $k++){
-   if($weight[$k] > $capacity){
-     print("les poids des objets ne doivent pas dépasser la capacité du bin");
-     return 0;
-   }else{
-
-
+function Branch_Bound($items,$n,$c){
+// initialiser la valeur optimale
+   $minboxes = $n;
+  //Tableau des poids restants
+   $wremaining = array();
+   for($j=0;$j<$n;$j++){
+    $wremaining[$j] = $c;
    }
- }
-    
+   //Nb boites utilisées
+   $numboxes = 0;
 
-  // for k in range(len(w)):
+   $s = 0;
+   $insert = false;
+   $i = 0;
+   $cpt = 0;
+//on parcourt la liste des objets
 
-  //           else:
-  //               print(n, n)
-  //               curN = bin.Node(wRemaining, 0,
-  //                               numBoxes)  # créer le premier noeud, niveau 0, nombre de boites utilisées 0
+ for($k=0;$k<$n;$k++){
+    $insert = false;
+    $x = $items[$k];
+    if ($items[$k] > $c){
+      print("le poids d'un objet ne doit pas dépasser la capacité d'une boite");
+      return 0;
+      }
+    else{
 
-  //               Nodes.append(curN)  # ajouter le noeud à l'arbre
+     $i=0;
+    while($insert == false and $i<$n){
+        // echo "<br> wremaining[$i]".$wremaining[$i];
+        // echo " | items[$k]".$items[$k];
+        if($wremaining[$i] > $items[$k]){
+          $wremaining[$i] = $wremaining[$i] - $items[$k];
+          if($i> $cpt){
+            $cpt++;
+          }
+          $insert = true;
+          
+          }
+        else{
+          $i++;
+        }
+    }
+    }
+  }
 
-  //               while len(Nodes) > 0:  # tant qu'on a un noeud à traiter
+return $cpt+1;
+}
 
-  //                   curN = Nodes.pop()  # récupérrer un noeud pour le traiter (curN)
-  //                   curLevel = curN.getLevel()  # récupérrer son niveau
-
-  //                   if (curLevel == n) and (
-  //                           curN.getNumberBoxes() < minBoxes):  # si c'est une feuille et nbr boites utilisées < minBoxes
-  //                       minBoxes = curN.getNumberBoxes()  # umettre à jour minBoxes
-
-  //                   else:
-
-  //                       indNewBox = curN.getNumberBoxes()
-
-  //                       if (indNewBox < minBoxes):
-
-  //                           wCurLevel = w[curLevel]
-  //                           for i in range(indNewBox + 1):
-  //                               if (curLevel < n) and (curN.getWRemaining(
-  //                                       i) >= wCurLevel):  # si cet possible d'insérer l'objet dans la boite i
-  //                                   # on crée un nouveau noeud.
-  //                                   newWRemaining = curN.getWRemainings().copy()
-  //                                   newWRemaining[i] -= wCurLevel  # la capacité restante i - le poids du nouvel objet
-
-  //                                   if (i == indNewBox):  # nouvelle boite
-  //                                       newNode = bin.Node(newWRemaining, curLevel + 1, indNewBox + 1)
-  //                                       for j in range(curLevel + 1, len(w)):
-  //                                           s = + w[j]
-  //                                       if (((indNewBox + 1) + s / c) < minBoxes):
-  //                                           Nodes.append(newNode)
-  //                                   else:  # boite deja ouverte
-  //                                       newNode = bin.Node(newWRemaining, curLevel + 1, indNewBox)
-  //                                       for j in range(curLevel + 1, len(w)):
-  //                                           s = + w[j]
-  //                                       if ((indNewBox + s / c) < minBoxes):
-  //                                           Nodes.append(newNode)
-
-  //               return minBoxes
- }
 
 function NextFit($weight, $nbrit, $capacity){
   
