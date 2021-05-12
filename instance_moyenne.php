@@ -113,7 +113,7 @@ if ($conn->connect_error) {
   $time=$timeend-$timestart;
   $tempsBB = number_format($time, 3);
 
-$sql = "INSERT INTO `resultats`(`nom_instance`,`solBB`, `tempsBB`, `solBF`, `tempsBF`, `solNF`, `tempsNF`, `type_instance`, `poids_min`, `poids_max`, `capacite`, `nombre_objets` ) VALUES ('$instance_name','$solBB','$tempsBB', '$solBF' , '$tempsBF' ,'$solNF','$tempsNF','1', '$poids_min','$poids_max', '$capacite','$nombre_objets')";
+$sql = "INSERT INTO `resultats`(`nom_instance`,`solBB`, `tempsBB`, `solBF`, `tempsBF`, `solNF`, `tempsNF`, `type_instance`, `poids_moyen`, `capacite`, `nombre_objets` ) VALUES ('$instance_name','$solBB','$tempsBB', '$solBF' , '$tempsBF' ,'$solNF','$tempsNF','1', '$poids_moyen', '$capacite','$nombre_objets')";
 
 if ($conn->query($sql) === TRUE) {
   echo "element inséré !";

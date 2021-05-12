@@ -28,6 +28,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css">
+
+   <!-- ChartJS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style type="text/css">
   div.dataTables_wrapper {
         width: 100%;
@@ -223,12 +227,9 @@
 
         <div class="section-title">
           <h2>Statistiques</h2>
-          <p>Graphes ..etc</p>
         </div>
-
         <div class="row">
-        
-
+<canvas id="myChart"></canvas>
         </div>
 
       </div>
@@ -685,7 +686,14 @@ $connexion->close();
       $type = "Difficile";
     }
     }
-    dataSet[i] = new Array(lignes_bdd[i].nom_instance,$type,lignes_bdd[i].solBB,lignes_bdd[i].tempsBB,lignes_bdd[i].solDP,lignes_bdd[i].tempsDP,lignes_bdd[i].solBF,lignes_bdd[i].tempsBF,lignes_bdd[i].solNF,lignes_bdd[i].tempsNF,lignes_bdd[i].solMet_one,lignes_bdd[i].tempsMet_one,lignes_bdd[i].solMet_two,lignes_bdd[i].tempsMet_two);
+    if (lignes_bdd[i].poids_max == "0" && lignes_bdd[i].poids_min == "0"){
+     lignes_bdd[i].poids_max = "";
+     lignes_bdd[i].poids_min = "";
+    }
+    if(lignes_bdd[i].poids_moyen == "0"){
+  lignes_bdd[i].poids_moyen = "";
+    }
+    dataSet[i] = new Array(lignes_bdd[i].nom_instance,$type,lignes_bdd[i].capacite, lignes_bdd[i].nombre_objets,lignes_bdd[i].poids_min,lignes_bdd[i].poids_moyen,lignes_bdd[i].poids_max,lignes_bdd[i].solBB,lignes_bdd[i].tempsBB,lignes_bdd[i].solDP,lignes_bdd[i].tempsDP,lignes_bdd[i].solBF,lignes_bdd[i].tempsBF,lignes_bdd[i].solNF,lignes_bdd[i].tempsNF,lignes_bdd[i].solMet_one,lignes_bdd[i].tempsMet_one,lignes_bdd[i].solMet_two,lignes_bdd[i].tempsMet_two);
   }
 
 $(document).ready(function() {
@@ -697,6 +705,11 @@ $(document).ready(function() {
         columns: [
             { title: "Instance" },
             {title : "Type instance"},
+            {title : "Capacité Bin"},
+            {title : "Nombre_objets"},
+            {title : "Poids min"},
+            {title : "Poids moyen"},
+            {title : "Poids max"},
             { title: "Solution B&B" },
             { title: "Temps B&B" },
             { title: "Solution Prog-Dyn" },
@@ -737,13 +750,148 @@ $(document).ready(function() {
 
   }
 
-
+ 
 </script>
 
-<script type="text/javascript" src="assets/js/BestFit.js"></script>
-<script type="text/javascript" src="assets/js/NextFit.js"></script>
-  
+<!-- *********************************************************************************** -->
+<?php 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "optim";
+$connexion = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($connexion->connect_error) {
+  die("Connection failed: " . $connexion->connect_error);
+}
+  //  echo "Connected successfully";
+$sql = "SELECT * FROM `resultats` WHERE 1";
+$result = $connexion->query($sql);
+
+$instances = array(); 
+
+if ($result->num_rows > 0) {
+  // output data of each row
+  $i=0;
+  while($row = $result->fetch_assoc()) {
+  $instances[$i] = $row;
+   $i++;
+  }
+} else {
+  echo "0 results";
+}
+
+$connexion->close();
+ ?>
+<!-- *********************************************************************************** -->
+<script>
+ var instances = <?php echo json_encode($instances); ?>;
+ const labels = [];
+const methodeBB = [];
+const methodeBF = [];
+const methodeNF = [];
+const methodePD = [];
+const methodeMT1 = [];
+const methodeMT2 = [];
+ for (var i = 0; i < instances.length; i++) {
+   labels[i] = instances[i].nom_instance;
+   methodeBB[i] = instances[i].tempsBB;
+   methodeBF[i] = instances[i].tempsBF;
+   methodeNF[i] = instances[i].tempsNF;
+   methodePD[i] = instances[i].tempsDP;
+   methodeMT1[i] = instances[i].tempsMet_one;
+   methodeMT2[i] = instances[i].tempsMet_two;
+ }
+
+
+const backgroundColorVAR = [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ];
+const borderColorVAR = [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ];
+
+
+const data = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Branch&Bound',
+      data: methodeBB,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Prog-Dynamique',
+      data: methodePD ,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+    ,
+    {
+      label: 'Best Fit',
+      data: methodeBF,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Next Fit',
+      data: methodeNF,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Méta-heuristique 1',
+      data: methodeMT1,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Méta-heuristique 2',
+      data: methodeMT2,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Comparaison entre les temps d\'exécution de toutes les méthodes'
+      }
+    }
+  },
+};
+
+  var myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
 </script>
+<!-- *********************************************************************************** -->
+<!-- *********************************************************************************** -->
+
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>   
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>   
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
