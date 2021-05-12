@@ -207,7 +207,7 @@
 
         <div class="section-title">
           <h2>Résultat obtenue</h2>
-           <button  class="btn btn-light" onClick="Show_dataTable();" style="color: white,font-size:bold;">Afficher résultats</button>
+           <!-- <button  class="btn btn-light" onClick="Show_dataTable();" style="color: white,font-size:bold;">Afficher résultats</button> -->
         </div>
 
         <div class="row justify-content-center align-items-center">
@@ -629,51 +629,6 @@ var option3 = document.createElement("option");
 
   }
 
-//
- 
-// $(document).ready(function() {
-//     $('#example').DataTable( {
-//         data: dataSet,
-//         columns: [
-//             { title: "Instance" },
-//             { title: "Solution B&B" },
-//             { title: "Temps B&B" },
-//             { title: "Solution Prog-Dyn" },
-//             { title: "Temps Prog-Dyn" },
-//             { title: "Solution BestFit" },
-//             { title: "Temps BestFit" },
-//             { title: "Solution NextFit" },
-//             { title: "Temps NextFit" },
-//             { title: "Solution Méta1" },
-//             { title: "Temps Méta1" },
-//             { title: "Solution Méta2" },
-//             { title: "Temps Méta2" }
-//         ],
-//         language: {
-//             "lengthMenu": "Afficher _MENU_ ligne par page",
-//             "zeroRecords": "Rien n'a été trouvé - désolé",
-//             "info": "Affichage de la page _PAGE_ de _PAGES_",
-//             "infoEmpty": "Aucune information disponible",
-//             "infoFiltered": "(filtrés à partir de _MAX_ enregistrements au total)",
-//             "paginate": {
-//         "first":      "Premier",
-//         "last":       "Dernier",
-//         "next":       "Prochain",
-//         "previous":   "Précédent"
-//          },
-//              "search":         "Rechercher :",
-
-//         },
-//         dom: 'Bfrtip',
-//         buttons: [
-//             'copy', 'csv', 'excel', 'pdf', 'print'
-//         ]
-      
-//     } );
-// } );
-
-
-
 </script> 
 <?php 
 $servername = "localhost";
@@ -708,7 +663,7 @@ $connexion->close();
 
 <script type="text/javascript">
 
-  function Show_dataTable(){
+ // function Show_dataTable(){
 
 
   var lignes_bdd = <?php echo json_encode($rows); ?>;
@@ -787,7 +742,7 @@ $(document).ready(function() {
 
 });
 
-  }
+  //}
 
  
 </script>
@@ -1369,7 +1324,9 @@ const config9 = {
     document.getElementById('myChart9'),
     config9
   );
+ 
 </script>
+
 <!-- *********************************************************************************** -->
 <!-- *********************************************************************************** -->
 
