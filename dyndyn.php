@@ -1,131 +1,10 @@
 <?php 
-//liste des objets 
-  //items = [5,5,4,15,7,8,1,10,6,12];
-   //nombre d'objets à insérer
-  // var n= items.length;
 
-//ini_set('memory_limit', '-1');
-ini_set('memory_limit', '512M');
+
+ 
 set_time_limit(1000); 
+ini_set('memory_limit', '-1');
 
-function Branch_Bound($items,$n,$c){
-// initialiser la valeur optimale
-   $minboxes = $n;
-  //Tableau des poids restants
-   $wremaining = array();
-   for($j=0;$j<$n;$j++){
-    $wremaining[$j] = $c;
-   }
-   //Nb boites utilisées
-   $numboxes = 0;
-
-   $s = 0;
-   $insert = false;
-   $i = 0;
-   $cpt = 0;
-//on parcourt la liste des objets
-
- for($k=0;$k<$n;$k++){
-    $insert = false;
-    $x = $items[$k];
-    if ($items[$k] > $c){
-      print("le poids d'un objet ne doit pas dépasser la capacité d'une boite");
-      return 0;
-      }
-    else{
-
-     $i=0;
-    while($insert == false and $i<$n){
-        // echo "<br> wremaining[$i]".$wremaining[$i];
-        // echo " | items[$k]".$items[$k];
-        if($wremaining[$i] > $items[$k]){
-          $wremaining[$i] = $wremaining[$i] - $items[$k];
-          if($i> $cpt){
-            $cpt++;
-          }
-          $insert = true;
-          
-          }
-        else{
-          $i++;
-        }
-    }
-    }
-  }
-
-return $cpt+1;
-}
-
-
-function NextFit($weight, $nbrit, $capacity){
-  
-  // initialiser le res nbr de bins
-  // act_cap represente la capacité actuelle dans le bin actuel
-  $res = 1;
-  $act_cap = $capacity;
-
-  for ($i = 0; $i < $nbrit; $i++) {
-    //parcourir les items
-    // Si l'item ne peut etre place dans le bin acutel
-    if ($weight[$i] > $act_cap) {
-      $res++; // ajouter un nouveau bin
-      $act_cap = $capacity - $weight[$i]; //màj la capacité actuelle
-      
-    } //on le place dans le bin
-    else $act_cap -= $weight[$i];
-
-  }
-  return $res; //retourner le nbr de bins requis
-
-}
-// **********************************************************************
-
-
-// **********************************************************************
-function BesfFit($weight,$n,$capacity){
-//weight : tableau des objets
-// n : nombre d objets
-// capacity : capacité du bin 
-
-  // Initialiser le nombre de bin à 0
-  $res = 0;
-   //   Créer un tableau pour stocker l'espace restant dans les bins
-   $bin_remp = array();
-       for ($i = 0; $i < $n; $i++) { // pour chaque objet
-           // Trouvez le premier bac qui peut supporter le weight[i]
-           $j = 0;
-           // Initialiser l'espace minimum restant et l'index du meilleur bin
-
-         $min = $capacity + 1;
-         $bi = 0;  
-
-         for ($j = 0; $j < $res; $j++) {
-          if ($bin_remp[$j] >= $weight[$i] and ($bin_remp[$j] - $weight[$i])< $min){
-
-            $bi = $j;
-                $min = $bin_remp[$j] - $weight[$i];
-          }
-                    
-         }
-           // Si aucun bin ne pouvait accueillir weight[i],
-           // créer un nouveau bin
-            if ($min == $capacity + 1){
-              $bin_remp[$res] = $capacity - $weight[$i];
-                $res += 1;
-            }
-                
-            else // Attribuer l'article au meilleur bin
-              {
-                $bin_remp[$bi] -= $weight[$i];
-              }
-
-    }
-
-return $res;
-
-}
-
-/**************************** PROGRAMMATION DYNAMIQUE **********************************/
 
 
 class item
@@ -312,5 +191,99 @@ class Binpacker
 
   }
 
+
+include "lire_instances.php";
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "optim";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+	echo "lol";
+  die("Connection failed: " . $conn->connect_error);
+}
+  //  echo "Connected successfully";
+
+
+$sql = "SELECT * FROM `resultats` WHERE 1";
+$result = $conn->query($sql);
+
+
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) {
+  
+    
+  $id = $row["id"];
+  $type = $row["type_instance"];
+  if($type == '0'){
+     $structure = lire_instance_facile($row["nom_instance"]);  
+      $poids_min = $structure["poids_min"];
+  $poids_max = $structure["poids_max"]; 
+  }else{
+    if($type == '1'){
+       $structure = lire_instance_moyenne($row["nom_instance"]);  
+       $poids_moyen = $structure["poids_moyen"];
+    }else{
+       $structure = lire_instance_difficile($row["nom_instance"]);
+        $poids_min = $structure["poids_min"];
+  $poids_max = $structure["poids_max"];       
+    }
+  }
+  // recuperer les paramètres
+  $capacite = $structure["capacite"];
+  $nombre_objets = $structure["nombre_objets"];
+  $liste_obj = $structure["liste_poids_objets"];
+
+// Programmation dynamique
+  $packer = new Binpacker($capacite); 
+  $tab = array();
+  $nomm = "Objet";
+  for ($i=0; $i < $nombre_objets ; $i++) { 
+    if ( $liste_obj[$i] <= $capacite){
+$a= new item($nomm, $liste_obj[$i]);
+  array_push($tab,$a);
+    }
+  }
+
+  $timestart=microtime(true);
+  $packer->setItems($tab);
+  $packer->packItems();
+  $solDP = count($packer->bins); // nombre de bins
+  $timeend=microtime(true);
+  $time=$timeend-$timestart;
+  $tempsDP = number_format($time, 5);
+
+
+if($type == '0' or $type == '2'){
+$sql = "UPDATE resultats SET `poids_min`='$poids_min',`poids_max`='$poids_max',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solDP`='$solDP',`tempsDP`= '$tempsDP' WHERE id='$id'";
+}else{
+$sql = "UPDATE resultats SET `poids_moyen`='$poids_moyen',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solDP`='$solDP',`tempsDP`= '$tempsDP' WHERE id='$id'";
+}
+
+
+
+if ($conn->query($sql) === TRUE) {
+  echo "Record updated successfully";
+} else {
+  echo "Error updating record: " . $conn->error;
+}
+
+
+
+
+
+  }
+} else {
+  echo "0 results";
+}
+
+ini_set('memory_limit', '2048M');
+
+$conn->close();
 
  ?>

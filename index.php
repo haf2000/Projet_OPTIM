@@ -195,8 +195,14 @@
     
 
     
-
+<br><br>
 <!-- FIN Instances difficiles -->
+  <div class="row">
+       <button onClick="lancerdyn()" class="btn btn-info" style="margin:5px;">Programmation Dynamique</button> 
+      <button onClick="lancerBB()" class="btn btn-info" style="margin:5px;">Branch&Bound</button> 
+       <button onClick="lancerBF()" class="btn btn-info" style="margin:5px;">Best Fit</button>                
+       <button onClick="lancerNF()" class="btn btn-info" style="margin:5px;">Next Fit</button>                
+      </div>
 
       </div>
     </section><!-- End Services Section -->   
@@ -298,7 +304,11 @@
       <p style="font-size: 20px;">Voici le lien vers notre code Github : <!-- <div class="social-links text-center text-md-right pt-3 pt-md-0">
        
   </div> -->  <a href="#" class="twitter"><i class="bx bxl-github"></i></a></p>
+      <div class="row">
+              <button onClick="viderBDD()" class="btn btn-danger">Refaire le traitement!</button>
       </div>
+      </div>
+      
     </section><!-- End Contact Section -->
 
   </main><!-- End #main -->
@@ -317,6 +327,21 @@
   <script src="assets/vendor/venobox/venobox.min.js"></script>
 
   <!-- Template Main JS File -->
+  <script type="text/javascript">
+    function viderBDD(){
+     $(document).ready(function() {
+    $.ajax({
+   url: "./viderbdd.php",
+   method: "POST",
+   success: function (result) {
+    alert(result);
+   }
+ });
+   
+});
+
+    }
+  </script>
   <script src="assets/js/main.js"></script>
    <script type="text/javascript" src="assets/js/vanillaSelectBox.js"></script>
 <?php 
@@ -551,20 +576,51 @@ var option3 = document.createElement("option");
   
   function Validate_faciles(id){
 
+//    $(document).ready(function() {
+//    var table_instances_faciles = getValues(id);
+//    var j=0;
+//    for (var i = 0 ; i <table_instances_faciles.length ; i++) {
+//      var inst = table_instances_faciles[i];
+   
+//     var str; // va contenir la structure en cours 
+     
+//     $.ajax({
+//    url: "./instance_facile.php",
+//    method: "POST",
+//    data: {inst: inst},
+//    success: function (result) {
+//     j++;
+//       console.log(result);
+//      if(j == table_instances_faciles.length){
+//      alert("Instances faciles traitées avec succès.");
+//      }
+//    }
+//  });
+   
+
+//    }
+
+// });
+
+
    $(document).ready(function() {
-      j=0;
    var table_instances_faciles = getValues(id);
+   var j=0;
    for (var i = 0 ; i <table_instances_faciles.length ; i++) {
      var inst = table_instances_faciles[i];
-
+   
     var str; // va contenir la structure en cours 
      
     $.ajax({
-   url: "./instance_facile.php",
+   url: "./save_instances_faciles.php",
    method: "POST",
    data: {inst: inst},
    success: function (result) {
-    console.log(result);
+   j++;
+   console.log(result);
+   if(j == table_instances_faciles.length){
+    alert("Instances faciles lues avec succès.");
+   }
    }
  });
    
@@ -572,6 +628,8 @@ var option3 = document.createElement("option");
    }
 
 });
+
+
 
   }
 
@@ -581,53 +639,176 @@ var option3 = document.createElement("option");
 //------------------------------------------------------------------------------------
   function Validate_moyennes(id){
 
-
-   $(document).ready(function() {
+  $(document).ready(function() {
    var table_instances_moyennes = getValues(id);
+      var j=0;
    for (var i = 0 ; i <table_instances_moyennes.length ; i++) {
      var inst = table_instances_moyennes[i];
 
     var str; // va contenir la structure en cours 
      
     $.ajax({
-   url: "./instance_moyenne.php",
+   url: "./save_instances_moyennes.php",
    method: "POST",
    data: {inst: inst},
    success: function (result) {
-    console.log(result);
+    j++;
+      console.log(result);
+    if(j == table_instances_moyennes.length){
+      alert("Instances moyennes lues avec succès.");
+     }
    }
  }); 
   
    }
 
 });
+//    $(document).ready(function() {
+//    var table_instances_moyennes = getValues(id);
+//       var j=0;
+//    for (var i = 0 ; i <table_instances_moyennes.length ; i++) {
+//      var inst = table_instances_moyennes[i];
+
+//     var str; // va contenir la structure en cours 
+     
+//     $.ajax({
+//    url: "./instance_moyenne.php",
+//    method: "POST",
+//    data: {inst: inst},
+//    success: function (result) {
+//     j++;
+//       console.log(result);
+//     if(j == table_instances_moyennes.length){
+//       alert("Instances moyennes traitées avec succès.");
+//      }
+//    }
+//  }); 
+  
+//    }
+
+// });
 
   }
 
 //-------------------------------------------------------------------------------
   function Validate_difficiles(id){
-
-   $(document).ready(function() {
+  
+  $(document).ready(function() {
    var table_instances_difficiles = getValues(id);
+   var j=0;
    for (var i = 0 ; i <table_instances_difficiles.length ; i++) {
      var inst = table_instances_difficiles[i];
 
     var str; // va contenir la structure en cours 
      
     $.ajax({
-   url: "./instance.php",
+   url: "./save_instances_difficiles.php",
    method: "POST",
    data: {inst: inst},
    success: function (result) {
-    console.log("success");
+    j++;
+      console.log(result);
+
+    if(j == table_instances_difficiles.length){
+      alert("Instances difficiles lues avec succès.");
+     }
    }
  }); 
   
    }
 
 });
+//    $(document).ready(function() {
+//    var table_instances_difficiles = getValues(id);
+//    var j=0;
+//    for (var i = 0 ; i <table_instances_difficiles.length ; i++) {
+//      var inst = table_instances_difficiles[i];
+
+//     var str; // va contenir la structure en cours 
+     
+//     $.ajax({
+//    url: "./instance.php",
+//    method: "POST",
+//    data: {inst: inst},
+//    success: function (result) {
+//     j++;
+//       console.log(result);
+
+//     if(j == table_instances_difficiles.length){
+//       alert("Instances difficiles traitées avec succès.");
+//      }
+//    }
+//  }); 
+  
+//    }
+
+// });
 
   }
+
+  function lancerdyn(){
+     $(document).ready(function() {
+    
+    $.ajax({
+   url: "./dyndyn.php",
+   method: "POST",
+   success: function (result) {
+    console.log(result);
+     alert("Méthode Programmation Dynamique traitée avec succès.");
+   }
+ }); 
+
+});
+
+  }
+function lancerBB(){
+    $(document).ready(function() {
+    
+    $.ajax({
+   url: "./bb.php",
+   method: "POST",
+   success: function (result) {
+    alert("Méthode Branch & Bound exécutée avec succès !");
+   }
+ }); 
+
+});
+
+}
+
+  function lancerBF(){
+    $(document).ready(function() {
+    
+    $.ajax({
+   url: "./bf.php",
+   method: "POST",
+   success: function (result) {
+    console.log(result);
+    alert("Méthode Best Fit exécutée avec succès !");
+   }
+ }); 
+
+});
+
+  }
+
+
+   function lancerNF(){
+    $(document).ready(function() {
+    
+    $.ajax({
+   url: "./nf.php",
+   method: "POST",
+   success: function (result) {
+    console.log(result);
+    alert("Méthode Next Fit exécutée avec succès !");
+   }
+ }); 
+
+});
+
+  }
+  
 
 </script> 
 <?php 
@@ -655,7 +836,7 @@ if ($result->num_rows > 0) {
    $i++;
   }
 } else {
-  echo "0 results";
+//  echo "0 results";
 }
 
 $connexion->close();
@@ -669,7 +850,6 @@ $connexion->close();
   var lignes_bdd = <?php echo json_encode($rows); ?>;
   var dataSet = [];
   
-  console.log(lignes_bdd);
   for (var i = 0; i < lignes_bdd.length; i++) {
     if(lignes_bdd[i].type_instance == '0'){
       $type = "Facile";
@@ -773,7 +953,7 @@ if ($result->num_rows > 0) {
    $i++;
   }
 } else {
-  echo "0 results";
+//  echo "0 results";
 }
 
 $connexion->close();
@@ -1271,7 +1451,6 @@ for (var i = 0; i < methodeMT2.length; i++) {
 temps_moy = temps_moy/(instances.length);
 donnees[5] = temps_moy;
 //----------------------------------------------
-console.log(donnees);
 const backgroundColorVAR2 = [
       'rgba(255, 99, 132, 0.5)',
       'rgba(255, 159, 64, 0.5)',
