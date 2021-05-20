@@ -8,6 +8,77 @@
 ini_set('memory_limit', '512M');
 set_time_limit(1000); 
 
+
+function worstFit($weight,$n, $c)
+{
+  // Initialize result (Count of bins)
+  $res = 0;
+
+  $bin_rem = array();
+
+  // Place items one by one
+  for ($i = 0; $i < $n; $i++) {
+
+    $mx = -1;
+    $wi = 0;
+
+    for ($j = 0; $j < $res; $j++) {
+      if ($bin_rem[$j] >= $weight[$i] and $bin_rem[$j]-$weight[$i] > $mx) {
+        $wi = $j;
+        $mx = $bin_rem[$j] - $weight[$i];
+      }
+    }
+
+    // If no bin could accommodate weight[i],
+    // create a new bin
+    if ($mx == -1) {
+      $bin_rem[$res] = $c - $weight[$i];
+      $res++;
+    }
+    else // Assign the item to best bin
+      $bin_rem[$wi] -= $weight[$i];
+  }
+  return $res;
+}
+
+
+
+function firstFit($weight,$n,$c)
+{
+  // Initialize result (Count of bins)
+  $res = 0;
+
+  // Create an array to store remaining space in bins
+  // there can be at most n bins
+  $bin_rem = array();
+
+  // Place items one by one
+  for ($i = 0; $i < $n; $i++)
+  {
+    // Find the first bin that can accommodate
+    // weight[i]
+  for ($j = 0; $j < $res; $j++)
+    {
+      if ($bin_rem[$j] >= $weight[$i])
+      {
+        $bin_rem[$j] = $bin_rem[$j] - $weight[$i];
+        break;
+      }
+    }
+
+    // If no bin could accommodate weight[i]
+    if ($j == $res)
+    {
+      $bin_rem[$res] = $c-$weight[$i];
+      $res++;
+    }
+  }
+  return $res;
+}
+
+
+
+
 function Branch_Bound($items,$n,$c){
 // initialiser la valeur optimale
    $minboxes = $n;
