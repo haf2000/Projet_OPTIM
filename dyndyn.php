@@ -216,8 +216,8 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
-  
-    
+    $solution_ex = $row["solDP"]; $temps_ex = $row["tempsDP"];
+ if($solution_ex == 0 and $temps_ex == 0){
   $id = $row["id"];
   $type = $row["type_instance"];
   if($type == '0'){
@@ -238,16 +238,18 @@ if ($result->num_rows > 0) {
   $capacite = $structure["capacite"];
   $nombre_objets = $structure["nombre_objets"];
   $liste_obj = $structure["liste_poids_objets"];
-
+   
+   echo $nombre_objets;
+   echo "capacite".$capacite;
 // Programmation dynamique
   $packer = new Binpacker($capacite); 
   $tab = array();
   $nomm = "Objet";
   for ($i=0; $i < $nombre_objets ; $i++) { 
-    if ( $liste_obj[$i] <= $capacite){
-$a= new item($nomm, $liste_obj[$i]);
+    
+  $a= new item($nomm, $liste_obj[$i]);
   array_push($tab,$a);
-    }
+   
   }
 
   $timestart=microtime(true);
@@ -274,7 +276,8 @@ if ($conn->query($sql) === TRUE) {
 }
 
 
-
+ }
+    
 
 
   }

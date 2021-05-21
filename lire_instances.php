@@ -29,8 +29,10 @@ function lire_instance_facile($instance){
 
    $i = 0;
    while(!feof($ressource)){
-     $liste_poids_objets[$i] = intval(fgets($ressource));
-
+    $p = fgets($ressource);
+    if($i >= 2){
+       $liste_poids_objets[$i-2] = intval($p);
+    }
      $i++;
    }
 
@@ -93,8 +95,10 @@ if($B == "B1"){
 
    $i = 0;
    while(!feof($ressource)){
-    $p = fgets($ressource);
-     $liste_poids_objets[$i] = intval($p);
+       $p = fgets($ressource);
+    if($i >= 2){
+       $liste_poids_objets[$i-2] = intval($p);
+    }
      $i++;
    }
 
@@ -131,7 +135,9 @@ $liste_poids_objets=array();
    $i = 0;
    while(!feof($ressource)){
     $p = fgets($ressource);
-     $liste_poids_objets[$i] = intval($p);
+    if($i >= 2){
+       $liste_poids_objets[$i-2] = intval($p);
+    }
      $i++;
    }
 

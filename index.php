@@ -772,6 +772,7 @@ function lancerBB(){
    url: "./bb.php",
    method: "POST",
    success: function (result) {
+    console.log(result);
     alert("Méthode Branch & Bound exécutée avec succès !");
    }
  }); 

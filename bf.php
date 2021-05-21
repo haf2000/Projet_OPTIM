@@ -72,8 +72,10 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
   
-    
-  $id = $row["id"];
+      $solution_ex = $row["solBF"]; $temps_ex = $row["tempsBF"];
+if($solution_ex == 0 and $temps_ex == 0){
+
+   $id = $row["id"];
   $type = $row["type_instance"];
   if($type == '0'){
      $structure = lire_instance_facile($row["nom_instance"]);  
@@ -117,9 +119,8 @@ if ($conn->query($sql) === TRUE) {
 }
 
 
-
-
-
+}
+    
   }
 } else {
   echo "0 results";

@@ -62,6 +62,9 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
   
+
+      $solution_ex = $row["solFF"]; $temps_ex = $row["tempsFF"];
+if($solution_ex == 0 and $temps_ex == 0){
     
   $id = $row["id"];
   $type = $row["type_instance"];
@@ -106,6 +109,10 @@ if ($conn->query($sql) === TRUE) {
 } else {
   echo "Error updating record: " . $conn->error;
 }
+  
+}
+
+
 
 
 
