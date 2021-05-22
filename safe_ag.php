@@ -1,25 +1,7 @@
 <?php 
 
 
-/***************************** INTEGRATION ***************************/
-set_time_limit(1000); 
-
-include "lire_instances.php";
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "optim";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    echo "lol";
-  die("Connection failed: " . $conn->connect_error);
-}
-  //  echo "Connected successfully";
+/***************************** HEURISTIQUES ***************************/
 
 /***************************** FirstFit ***************************/
 class FirstFit{
@@ -251,8 +233,8 @@ return mt_rand($st_num*$mul,$end_num*$mul)/$mul;
         $pattern2 = $parent2->getPattern();
         $pattern1_new = $pattern1;
         $pattern2_new = $pattern2;
-         // echo "<br> lentgh pattern1 ".strlen($pattern1)." | pattern1 : ".$pattern1;
-         // echo "<br> lentgh pattern2 ".strlen($pattern2)." | pattern2 : ".$pattern2;        
+         echo "<br> lentgh pattern1 ".strlen($pattern1)." | pattern1 : ".$pattern1;
+         echo "<br> lentgh pattern2 ".strlen($pattern2)." | pattern2 : ".$pattern2;        
       if($this->rand_float() < $this->CROSSOVER_RATE){
         if(strlen($pattern1) == 0){
             $point1 =0;
@@ -265,16 +247,16 @@ return mt_rand($st_num*$mul,$end_num*$mul)/$mul;
         }else{
         $point2 = mt_rand(0,strlen($pattern2)-1);
         }
-         // echo "<br> point1 ".$point1;
-         // echo "<br> point2 ".$point2;
+         echo "<br> point1 ".$point1;
+         echo "<br> point2 ".$point2;
         $substr1 = substr($pattern1,$point1, strlen($pattern1)-$point1); 
         $substr2 = substr($pattern2,$point2, strlen($pattern2)-$point2); 
-         // echo "<br> substr1 ".$substr1;
-         // echo "<br> substr2 ".$substr2;
+         echo "<br> substr1 ".$substr1;
+         echo "<br> substr2 ".$substr2;
         $pattern1_new =  substr($pattern1,$point1, strlen($pattern1)-$point1).$substr2;
         $pattern2_new =  substr($pattern2,$point2, strlen($pattern2)-$point2).$substr1;
-         // echo "<br> lentgh pattern_new1 ".strlen($pattern1_new)." | pattern_new1 : ".$pattern1_new;
-         // echo "<br> lentgh pattern_new2 ".strlen($pattern2_new)." | pattern_new2 : ".$pattern2_new;  
+         echo "<br> lentgh pattern_new1 ".strlen($pattern1_new)." | pattern_new1 : ".$pattern1_new;
+         echo "<br> lentgh pattern_new2 ".strlen($pattern2_new)." | pattern_new2 : ".$pattern2_new;  
       }
         $c1 = new Chromosome($parent1->capacity);
         $c1->setPattern($pattern1_new);
@@ -285,7 +267,7 @@ return mt_rand($st_num*$mul,$end_num*$mul)/$mul;
 
     function update_individuals($individuals){
     $nombre_ind = count($individuals);
-   // echo "<br>nombre de individuals : $nombre_ind";
+    echo "<br>nombre de individuals : $nombre_ind";
      for ($i=0; $i < $nombre_ind; $i++) { 
       //  echo "<br> individual's pattern number $i : ".$individuals[$i]->getPattern();
        $solution = $individuals[$i]->generate_solution($this->items);
@@ -475,91 +457,20 @@ function add_item($new_item){
 
 /**********************************  TEST  *********************************************/
 
-/***********************************CALLING INSTANCES********************************************/
+$items= array(new item(100),new item(97), new item(92),new item(91),new item(89),new item(88),new item(83),new item(82),new item(82),new item(82),new item(78),new item(77),new item(77),new item(77), new item(73),new item(72),new item(68),new item(67),new item(66),new item(65),new item(64),new item(62),new item(60),new item(60),new item(57),new item(53),new item(50),new item(48),new item(46),new item(42),new item(40),new item(40),new item(38),new item(37),new item(37),new item(31),new item(30),new item(29),new item(28),new item(21),new item(20),new item(20),new item(20),new item(20),new item(18),new item(18),new item(15),new item(15),new item(11),new item(1));
 
+echo count($items);
 $POPULATION_SIZE = 50;
 $MAX_GENERATIONS = 250;
 $MAX_NO_CHANGE = 50;
 $TOURNAMENT_SIZE = 20;
 $MUTATION_RATE = 0.3;
 $CROSSOVER_RATE = 0.6;
-
-$sql = "SELECT * FROM `resultats` WHERE 1";
-$result = $conn->query($sql);
-
-
-if ($result->num_rows > 0) {
-  while($row = $result->fetch_assoc()) {
-  
-      $solution_ex = $row["solMet_one"]; $temps_ex = $row["tempsMet_one"];
-if($solution_ex == 0 and $temps_ex == 0){
-
-   $id = $row["id"];
-  $type = $row["type_instance"];
-  if($type == '0'){
-     $structure = lire_instance_facile($row["nom_instance"]);  
-      $poids_min = $structure["poids_min"];
-  $poids_max = $structure["poids_max"]; 
-  }else{
-    if($type == '1'){
-       $structure = lire_instance_moyenne($row["nom_instance"]);  
-       $poids_moyen = $structure["poids_moyen"];
-    }else{
-       $structure = lire_instance_difficile($row["nom_instance"]);
-        $poids_min = $structure["poids_min"];
-  $poids_max = $structure["poids_max"];       
-    }
-  }
-  // recuperer les paramètres
-  $capacite = $structure["capacite"];
-  $nombre_objets = $structure["nombre_objets"];
-  $liste_obj = $structure["liste_poids_objets"];
-
-  // Lancer AG
- // créer table des items 
-  $items = array();
-  for ($i=0; $i < $nombre_objets; $i++) { 
-      $item = new item($liste_obj[$i]);
-      array_push($items,$item);
-  }
-
- $timestart=microtime(true);
-$thing = new GeneticAlgorithm($capacite, $items,$POPULATION_SIZE,$MAX_GENERATIONS,$MAX_NO_CHANGE,$TOURNAMENT_SIZE,$MUTATION_RATE,$CROSSOVER_RATE);
+$capacity = 100;
+$thing = new GeneticAlgorithm($capacity, $items,$POPULATION_SIZE,$MAX_GENERATIONS,$MAX_NO_CHANGE,$TOURNAMENT_SIZE,$MUTATION_RATE,$CROSSOVER_RATE);
 $res = $thing->AG();
-// echo "<br>current iteration : ".$res[0];
-// echo "<br>num no change : ".$res[1];
-  $solMet_one = $thing->getBestSolution()->getNumBin();
-  $timeend=microtime(true);
-  $time=$timeend-$timestart;
-  $tempsMet_one = number_format($time, 5);
-
-
-if($type == '0' or $type == '2'){
-$sql = "UPDATE resultats SET `poids_min`='$poids_min',`poids_max`='$poids_max',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solMet_one`='$solMet_one',`tempsMet_one`= '$tempsMet_one' WHERE id='$id'";
-}else{
-$sql = "UPDATE resultats SET `poids_moyen`='$poids_moyen',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solMet_one`='$solMet_one',`tempsMet_one`= '$tempsMet_one' WHERE id='$id'";
-}
-
-
-
-if ($conn->query($sql) === TRUE) {
-  echo "<br>INSTANCE TRAITEE !! ";
-} else {
-  echo "Error updating record: " . $conn->error;
-}
-
-
-}
-    
-  }
-} else {
-  echo "0 results";
-}
-
-$conn->close();
-
-
-
-
+echo "<br>current iteration : ".$res[0];
+echo "<br>num no change : ".$res[1];
+echo "<br> best_solution : ".$thing->getBestSolution()->getNumBin();
 
 ?>

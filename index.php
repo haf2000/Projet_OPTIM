@@ -204,7 +204,7 @@
        <button onClick="lancerWF()" class="btn btn-info" style="margin:5px;">Worst Fit</button>                
        <button onClick="lancerFF()" class="btn btn-info" style="margin:5px;">First Fit</button>                
        <button onClick="lancerNF()" class="btn btn-info" style="margin:5px;">Next Fit</button>                
-       <button  class="btn btn-info" style="margin:5px;">Métaheuristique AG</button>                
+       <button onClick="lancerAG()" class="btn btn-info" style="margin:5px;">Métaheuristique AG</button>                
        <button  class="btn btn-info" style="margin:5px;">Métaheuristique RS</button>                
       </div>
 
@@ -790,6 +790,22 @@ function lancerBB(){
    success: function (result) {
     console.log(result);
     alert("Méthode Best Fit exécutée avec succès !");
+   }
+ }); 
+
+});
+
+  }
+
+  function lancerAG(){
+    $(document).ready(function() {
+    
+    $.ajax({
+   url: "./ag.php",
+   method: "POST",
+   success: function (result) {
+    console.log(result);
+    alert("Méthode Algorithme génétique exécutée avec succès !");
    }
  }); 
 
