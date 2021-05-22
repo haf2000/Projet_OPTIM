@@ -205,7 +205,7 @@
        <button onClick="lancerFF()" class="btn btn-info" style="margin:5px;">First Fit</button>                
        <button onClick="lancerNF()" class="btn btn-info" style="margin:5px;">Next Fit</button>                
        <button onClick="lancerAG()" class="btn btn-info" style="margin:5px;">Métaheuristique AG</button>                
-       <button  class="btn btn-info" style="margin:5px;">Métaheuristique RS</button>                
+       <button onClick="lancerRS()" class="btn btn-info" style="margin:5px;">Métaheuristique RS</button>                
       </div>
 
       </div>
@@ -795,6 +795,20 @@ function lancerBB(){
 
 });
 
+  }
+
+  function lancerRS(){
+     $(document).ready(function() {
+    
+    $.ajax({
+   url: "./rs.php",
+   method: "POST",
+   success: function (result) {
+    alert("Méthode RS exécutée avec succès !");
+   }
+ }); 
+
+});
   }
 
   function lancerAG(){
