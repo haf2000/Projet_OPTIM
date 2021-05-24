@@ -282,7 +282,6 @@ if ($result->num_rows > 0) {
   while($row = $result->fetch_assoc()) {
   
       $solution_ex = $row["solMet_two"]; $temps_ex = $row["tempsMet_two"];
-if($solution_ex == 0 and $temps_ex == 0){
 
    $id = $row["id"];
   $type = $row["type_instance"];
@@ -337,7 +336,7 @@ if ($conn->query($sql) === TRUE) {
 }
 
 
-}
+
     
   }
 } else {

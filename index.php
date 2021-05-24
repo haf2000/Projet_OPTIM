@@ -206,8 +206,9 @@
        <button onClick="lancerWF()" class="btn btn-info" style="margin:5px;">Worst Fit</button>                
        <button onClick="lancerFF()" class="btn btn-info" style="margin:5px;">First Fit</button>                
        <button onClick="lancerNF()" class="btn btn-info" style="margin:5px;">Next Fit</button>                
-       <button onClick="lancerAG()" class="btn btn-info" style="margin:5px;">Métaheuristique AG</button>                
-       <button onClick="lancerRS()" class="btn btn-info" style="margin:5px;">Métaheuristique RS</button>                
+       <button onClick="lancerAG()" class="btn btn-info" style="margin:5px;">M-h AG</button>                
+       <button onClick="lancerRS()" class="btn btn-info" style="margin:5px;">M-h RS</button>                
+       <button onClick="lancerRT()" class="btn btn-info" style="margin:5px;">M-h RT</button>                
       </div>
 
       </div>
@@ -798,6 +799,19 @@ function lancerBB(){
 });
 
   }
+  function lancerRT(){
+       $(document).ready(function() {
+    
+    $.ajax({
+   url: "./RT.php",
+   method: "POST",
+   success: function (result) {
+    alert("Méthode RT exécutée avec succès !");
+   }
+ }); 
+
+});
+  }
 
   function lancerRS(){
      $(document).ready(function() {
@@ -938,7 +952,7 @@ $connexion->close();
     if(lignes_bdd[i].poids_moyen == "0"){
   lignes_bdd[i].poids_moyen = "";
     }
-    dataSet[i] = new Array(lignes_bdd[i].nom_instance,$type,lignes_bdd[i].capacite, lignes_bdd[i].nombre_objets,lignes_bdd[i].poids_min,lignes_bdd[i].poids_moyen,lignes_bdd[i].poids_max,lignes_bdd[i].solBB,lignes_bdd[i].tempsBB,lignes_bdd[i].solDP,lignes_bdd[i].tempsDP,lignes_bdd[i].solBF,lignes_bdd[i].tempsBF,lignes_bdd[i].solNF,lignes_bdd[i].tempsNF,lignes_bdd[i].solFF,lignes_bdd[i].tempsFF,lignes_bdd[i].solWF,lignes_bdd[i].tempsWF,lignes_bdd[i].solMet_one,lignes_bdd[i].tempsMet_one,lignes_bdd[i].solMet_two,lignes_bdd[i].tempsMet_two);
+    dataSet[i] = new Array(lignes_bdd[i].nom_instance,$type,lignes_bdd[i].capacite, lignes_bdd[i].nombre_objets,lignes_bdd[i].poids_min,lignes_bdd[i].poids_moyen,lignes_bdd[i].poids_max,lignes_bdd[i].solBB,lignes_bdd[i].tempsBB,lignes_bdd[i].solDP,lignes_bdd[i].tempsDP,lignes_bdd[i].solBF,lignes_bdd[i].tempsBF,lignes_bdd[i].solNF,lignes_bdd[i].tempsNF,lignes_bdd[i].solFF,lignes_bdd[i].tempsFF,lignes_bdd[i].solWF,lignes_bdd[i].tempsWF,lignes_bdd[i].solMet_one,lignes_bdd[i].tempsMet_one,lignes_bdd[i].solMet_two,lignes_bdd[i].tempsMet_two,lignes_bdd[i].solMet_three,lignes_bdd[i].tempsMet_three);
   }
 
 $(document).ready(function() {
@@ -967,10 +981,12 @@ $(document).ready(function() {
             { title: "Temps FirstFit" },
             { title: "Solution WorstFit" },
             { title: "Temps WorstFit" },
-            { title: "Solution Méta1" },
-            { title: "Temps Méta1" },
-            { title: "Solution Méta2" },
-            { title: "Temps Méta2" }
+            { title: "Solution AG" },
+            { title: "Temps AG" },
+            { title: "Solution RS" },
+            { title: "Temps RS" },
+            { title: "Solution RT" },
+            { title: "Temps RT" }
         ],
         language: {
             "lengthMenu": "Afficher _MENU_ ligne par page",
@@ -992,11 +1008,7 @@ $(document).ready(function() {
             'copy', 'csv', 'excel', 'pdf', 'print'
         ],
         "scrollX": true,
-        "fixedColumns": true,
-        "fixedColumns":   {
-            leftColumns: 1,
-        }
-      
+        
     } );
 
 });
@@ -1049,6 +1061,7 @@ const methodeWF = [];
 const methodePD = [];
 const methodeMT1 = [];
 const methodeMT2 = [];
+const methodeMT3 = [];
 const methodeFF_nombrebins = [];
 const methodeWF_nombrebins = [];
 const methodeBB_nombrebins = [];
@@ -1057,6 +1070,7 @@ const methodeNF_nombrebins = [];
 const methodePD_nombrebins = [];
 const methodeMT1_nombrebins = [];
 const methodeMT2_nombrebins = [];
+const methodeMT3_nombrebins = [];
  for (var i = 0; i < instances.length; i++) {
    labels[i] = instances[i].nom_instance;
    methodeBB[i] = instances[i].tempsBB;
@@ -1067,6 +1081,7 @@ const methodeMT2_nombrebins = [];
    methodePD[i] = instances[i].tempsDP;
    methodeMT1[i] = instances[i].tempsMet_one;
    methodeMT2[i] = instances[i].tempsMet_two;
+   methodeMT3[i] = instances[i].tempsMet_three;
    methodeBB_nombrebins[i] = instances[i].solBB;
    methodeBF_nombrebins[i] = instances[i].solBF;
    methodeNF_nombrebins[i] = instances[i].solNF;
@@ -1075,6 +1090,7 @@ const methodeMT2_nombrebins = [];
    methodePD_nombrebins[i] = instances[i].solDP;
    methodeMT1_nombrebins[i] = instances[i].solMet_one;
    methodeMT2_nombrebins[i] = instances[i].solMet_two;
+   methodeMT3_nombrebins[i] = instances[i].solMet_three;
  }
 
 
@@ -1084,7 +1100,9 @@ const backgroundColorVAR = [
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(233, 159, 85, 0.2)',
+                'rgba(70, 15, 85, 0.2)',
             ];
 const borderColorVAR = [
                 'rgba(255, 99, 132, 1)',
@@ -1092,7 +1110,9 @@ const borderColorVAR = [
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(255, 159, 64, 1)',
+                'rgba(233, 159, 85, 1)',
+                'rgba(70, 15, 85, 1)',
             ];
 
 
@@ -1138,14 +1158,21 @@ const data = {
     },
 
     {
-      label: 'Méta-heuristique 1',
+      label: 'AG',
       data: methodeMT1,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     },
     {
-      label: 'Méta-heuristique 2',
+      label: 'RS',
       data: methodeMT2,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+    ,
+    {
+      label: 'RT',
+      data: methodeMT3,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     }
@@ -1218,14 +1245,21 @@ const data2 = {
     },
 
     {
-      label: 'Méta-heuristique 1',
+      label: 'AG',
       data: methodeMT1_nombrebins,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     },
     {
-      label: 'Méta-heuristique 2',
+      label: 'RS',
       data: methodeMT2_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+    ,
+    {
+      label: 'RT',
+      data: methodeMT3_nombrebins,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     }
@@ -1361,14 +1395,20 @@ const data5 = {
   labels: labels,
   datasets: [
     {
-      label: 'Méta-heuristique 1',
+      label: 'Méta-heuristique AG',
       data: methodeMT1,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     },
     {
-      label: 'Méta-heuristique 2',
+      label: 'Méta-heuristique RS',
       data: methodeMT2,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Méta-heuristique RT',
+      data: methodeMT3,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     }
@@ -1503,14 +1543,20 @@ const data8 = {
   labels: labels,
   datasets: [
     {
-      label: 'Méta-heuristique 1',
+      label: 'Méta-heuristique AG',
       data: methodeMT1_nombrebins,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     },
     {
-      label: 'Méta-heuristique 2',
+      label: 'Méta-heuristique RS',
       data: methodeMT2_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    },
+    {
+      label: 'Méta-heuristique RT',
+      data: methodeMT3_nombrebins,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     }
@@ -1604,6 +1650,15 @@ for (var i = 0; i < methodeMT2.length; i++) {
 temps_moy = temps_moy/(instances.length);
 donnees[7] = temps_moy;
 //----------------------------------------------
+
+temps_moy = 0;
+for (var i = 0; i < methodeMT3.length; i++) {
+  temps_moy = temps_moy +parseFloat(methodeMT3[i]);
+}
+temps_moy = temps_moy/(instances.length);
+donnees[8] = temps_moy;
+
+//----------------------------------------------
 const backgroundColorVAR2 = [
       'rgba(255, 99, 132, 0.5)',
       'rgba(255, 159, 64, 0.5)',
@@ -1611,7 +1666,8 @@ const backgroundColorVAR2 = [
       'rgba(75, 192, 192, 0.5)',
       'rgba(54, 162, 235, 0.5)',
       'rgba(153, 102, 255, 0.5)',
-      'rgba(201, 203, 207, 0.5)'
+      'rgba(201, 203, 207, 0.5)',
+      'rgba(180, 222, 207, 0.5)'
     ];
    const borderColorVAR2 = [
       'rgb(255, 99, 132)',
@@ -1620,9 +1676,11 @@ const backgroundColorVAR2 = [
       'rgb(75, 192, 192)',
       'rgb(54, 162, 235)',
       'rgb(153, 102, 255)',
-      'rgb(201, 203, 207)'
+      'rgb(201, 203, 207)',
+      'rgba(180, 222, 207, 1)'
+
     ];
-const  labels2 = ["Branch & Bound","Prog-Dynamique","Best Fit","Next Fit","First Fit","Worst Fit","Méta-heuristique 1","Méta-heuristique 2"];
+const  labels2 = ["Branch & Bound","Prog-Dynamique","Best Fit","Next Fit","First Fit","Worst Fit","Méta-heur AG","Méta-heur RS","Méta-heur RT"];
 const data9 = {
   labels: labels2,
   datasets: [
