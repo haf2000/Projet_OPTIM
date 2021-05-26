@@ -817,9 +817,10 @@ function lancerBB(){
      $(document).ready(function() {
     
     $.ajax({
-   url: "./rs.php",
+   url: "./main_sa_call.php",
    method: "POST",
    success: function (result) {
+    console.log(result);
     alert("Méthode RS exécutée avec succès !");
    }
  }); 

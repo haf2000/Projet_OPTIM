@@ -6,59 +6,78 @@ set_time_limit(1000);
 ini_set('memory_limit', '-1');
 
 
-
+/*Définition de la classe objet*/
 class item
 {
-  function __construct($name, $weight) 
+  function __construct( $weight) 
     {
-      $this->name = $name ;
       $this->weight = $weight;
     }
-  function getName(){return $this->name;}
+  #retourne le poid de l'objet 
   function getWeight(){return $this->weight;}
-  function Inf($objet){return $this->weight < $objet->weight ;}
-  function Egal($objet){return $this->weight == $objet->weight ;}
+  #
 }
 
-/***********************************************************************/
+/*  définition de la classe bin*/
+
 class bin
 {
-  function __construct($name, $capacity) 
+  function __construct($capacity) 
     {
-      $this->capacity = $capacity ;
-      $this->name = $name;  
+      $this->capacity = $capacity ; 
       $this->items = array();
-        $this->utilization = 0.0;   
-        $this->tow = 0;
+        $this->utilization = 0;   
+        
     }
-    
 
-   function getName(){return $this->name;}
-   function getCapacity(){return $this->capacity;}
-   function getTotalWeight()
+#retourne la capacité
+
+  function getCapacity(){
+
+    return $this->capacity;
+  }
+
+#retourne la liste des objets 
+
+  function getItems(){return $this->items;}
+
+
+#retourne le poid total dans le bin 
+
+    function getTotalWeight()
     { $total = 0 ;
       if (count($this->items) > 0) 
         {       
           for ($p=0; $p<count($this->items); $p++) 
           {
-            $total = $total + $this->items[$p]->weight;
+            $total = $total + $this->items[$p];
           }
         }
        return $total;
     }
-   function getUtilization(){return $this->utilization;}
-   function push($item)
-    {
-      array_push($this->items,$item);
-      $t = $this->getTotalWeight();
-      $this->utilization = round(($t / $this->capacity) * 100, 2);
-      $this->tow = $t;
-    }
-   //pop
-   //remove 
-   function getItems(){return $this->items;}
+
+#retourne le pourcentage de l'utilisation du bin 
+
+   function getUtilisation(){
+
+        $total = $this-> getTotalWeight() ;
+      
+       return round(($total / $this->capacity) * 100, 2);
+
+   }  
+
+    function push($item){
+
+      array_push($this->items,$item);  
+      ksort($this->items);
+  }
+  
+   
 }
-/***********************************************************************/
+
+/**************************************************/
+/****Définition de la classe Packer****************/
+
 class Binpacker 
 {
   function __construct($capacity) 
@@ -72,50 +91,70 @@ class Binpacker
   function addItem($item){array_push($this->items,$item);}
   function getBins(){return $this->bins;}
   function setBins($bins){$this->bins=$bins;}
+
+#générer la table de vérité 
   function getTV($capacity,$items)
-    {
+    {   
+      
+            ksort($this->items);
       $tv = array(array());
-      $ll = count((array)$items);
-         for ($i=0;$i<$ll;$i++)
+
+         for ($i=0;$i<count($items);$i++)
           {
                for ($j=0; $j<$capacity+1; $j++) 
                 {   
                     $tv[$i][$j]=true;
                 }
           }
-      $ll2 = count((array)$items);
-        for ($i=0;$i<$ll2;$i++)
+        for ($m=0;$m<count($this->items);$m++)
           {
-          for ($j=0;$j<$capacity+1; $j++) 
+          for ($j=0;$j<$this->capacity+1; $j++) 
               {         
-                  if ($i==0)
+                  if (!$m)
                      {
-                      if ($j != $items[$i]->weight && $j > 0) 
+                      if (($j != $items[$m])) 
                         {                 
-                          $tv[$i][$j] = false;}
+                          $tv[$m][$j] = false;}
                          }
 
                 else
                   {
                     
-                            if ($j < $items[$i]->weight) {$tv[$i][$j] =$tv[$i - 1][$j];}
-                            else {$tv[$i][$j] = $tv[$i - 1][$j] || $tv[$i - 1][$j - $items[$i]->weight];}
+                              if (($j < $items[$m]) &&( $j > 0)) {
+
+                                $tv[$m][$j] =$tv[$m - 1][$j];
+                              }
+                              else {
+                                $tv[$m][$j] = $tv[$m - 1][$j] || $tv[$m - 1][$j - $items[$m]];
+                              }
                           }
                     }
           }
         return $tv; 
 
     }
+
+
+ #récupérer les objets 
+
   function pickItems($tv)
-  {
+  {   
+    ksort($this->items);
+
     $choix = array();
     $k= (count($tv)) - 1;
     $j=0;
-    $limit = count($tv[$k]);
-    for ($index=0;$index < $limit;$index++)
+  if($k>=0){
+    for ($index=0;$index < count($tv[$k]);$index++)
       {
-        if(($tv[$k][$index]) == true) $j=$index;
+        if(($tv[$k][$index]) == true){
+
+           $j=$index;
+
+        }
+
       }
+        
     while ($k >= 0)
                 {
                   if ($k == 0) 
@@ -128,69 +167,76 @@ class Binpacker
                       {
                           
                           array_push($choix,$k);
-                          $j = $j - $this->items[$k]->weight;
+                          $j = $j - $this->items[$k];
                         }
                   }
                     $k = $k - 1 ;
-                }  
-        
+                } }         
         return $choix;
 
   }
 
+
+#ranger un objet 
+  function moveItemsToBin($itemIndices, $binIndex)
+  {   ksort($this->items);
+    for ($i=0;$i<count($itemIndices);$i++)
+      {
+        array_push($this->bins[$binIndex]->items,$this->items[$i]);
+        array_splice($this->items,$i,1);
+        ksort($this->items);
+
+      }
+   
+  }
   function packItems(){
-    asort($this->items);
+    ksort($this->items);
     $nb = count($this->bins);
-    if($nb > 0)
+    if(count($this->bins) > 0)
       {       
-        for ($i=0;$i<$nb;$i++) 
+        for ($i=0;$i<count($this->bins);$i++) 
           {
-            $uti = $this->bins[$i]->utilization;
-            $num_items = count($this->items);
-            if(($uti != 100) && ( $num_items > 0))
+            $uti = $this->bins[$i]->getTotalWeight();
+            if(($uti < $this->capacity) )
             {
-              $capacityRest= $this->bins[$i]->capacity - $this->bins[$i]->tow;  
+              $capacityRest= $this->bins[$i]->capacity - $this->bins[$i]->getTotalWeight(); 
               $m = $this->getTV($capacityRest,$this->items);
               $picked_items = $this->pickItems($m); 
-              $len_picked_items = count($picked_items);
-              for ($p=0;$p< $len_picked_items;$p++)
+              for ($p=0;$p<count($picked_items);$p++)
                         {           
                            $this->bins[$i]->push($this->items[$picked_items[$p]]);
-                        }
-              for ($d=0;$d<$len_picked_items;$d++)
-                        {
-                          array_splice($this->items,$picked_items[$d],1); 
-                        }       
-            }
-
+                      
+                          array_splice($this->items,$picked_items[$p],1); 
+                            ksort($this->bins[$binIndex]->items);
+}}
           }
       }
 
-
+       #ajouter une nouvelle boite 
     while(count($this->items) > 0)
-      { 
+      {  ksort($this->items);
         $m = $this->getTV($this->capacity,$this->items);    
-        $newBin = new bin(count($this->bins),$this->capacity);
+        $newBin = new bin($this->capacity);
         array_push($this->bins, $newBin); 
-        $binIndex = count($this->bins) - 1;
+        $binIndex =(count($this->bins) - 1);
         $pickedItems = $this->pickItems($m);
-       $len_picked_items = count($pickedItems);    
-        for ($i=0;$i<$len_picked_items;$i++)
+        for ($i=0;$i<count($pickedItems);$i++)
               { 
                 
                  $this->bins[$binIndex]->push($this->items[$pickedItems[$i]]);                    
-              }
-          for ($i=0;$i<$len_picked_items;$i++)
-              {
-                array_splice($this->items,$pickedItems[$i],1);  
-              }
-          
+                   array_splice($this->items,$pickedItems[$i],1); 
+                                  ksort($this->bins[$binIndex]->items);
+
+              } 
+
+
       }
 
     }
 
-  }
 
+} 
+ /**********************************************************************Test***********************************************************************************************/
 
 include "lire_instances.php";
 
@@ -242,23 +288,17 @@ if ($result->num_rows > 0) {
    echo $nombre_objets;
    echo "capacite".$capacite;
 // Programmation dynamique
-  $packer = new Binpacker($capacite); 
-  $tab = array();
-  $nomm = "Objet";
-  for ($i=0; $i < $nombre_objets ; $i++) { 
-    
-  $a= new item($nomm, $liste_obj[$i]);
-  array_push($tab,$a);
-   
-  }
+   $timestart=microtime(true);
 
-  $timestart=microtime(true);
-  $packer->setItems($tab);
-  $packer->packItems();
-  $solDP = count($packer->bins); // nombre de bins
-  $timeend=microtime(true);
-  $time=$timeend-$timestart;
-  $tempsDP = number_format($time, 5);
+   $packer = new Binpacker($capacite); // capacité 
+$packer->setItems($liste_obj);
+$packer->packItems();
+ $solDP = count($packer->bins);
+ $timeend=microtime(true);
+   $time=$timeend-$timestart;
+   $tempsDP = number_format($time, 5);
+   echo "sol : ".$solDP;
+
 
 
 if($type == '0' or $type == '2'){
