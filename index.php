@@ -879,7 +879,7 @@ $connexion->close();
     if(lignes_bdd[i].poids_moyen == "0"){
   lignes_bdd[i].poids_moyen = "";
     }
-    dataSet[i] = new Array(lignes_bdd[i].nom_instance,$type,lignes_bdd[i].capacite, lignes_bdd[i].nombre_objets,lignes_bdd[i].poids_min,lignes_bdd[i].poids_moyen,lignes_bdd[i].poids_max,lignes_bdd[i].solBB,lignes_bdd[i].tempsBB,lignes_bdd[i].solDP,lignes_bdd[i].tempsDP,lignes_bdd[i].solBF,lignes_bdd[i].tempsBF,lignes_bdd[i].solNF,lignes_bdd[i].tempsNF,lignes_bdd[i].solFF,lignes_bdd[i].tempsFF,lignes_bdd[i].solWF,lignes_bdd[i].tempsWF,lignes_bdd[i].solMet_one,lignes_bdd[i].tempsMet_one,lignes_bdd[i].solMet_two,lignes_bdd[i].tempsMet_two,lignes_bdd[i].solMet_three,lignes_bdd[i].tempsMet_three);
+    dataSet[i] = new Array(lignes_bdd[i].nom_instance,$type,lignes_bdd[i].capacite, lignes_bdd[i].nombre_objets,lignes_bdd[i].poids_min,lignes_bdd[i].poids_moyen,lignes_bdd[i].poids_max,lignes_bdd[i].solution_optimale,lignes_bdd[i].solBB,lignes_bdd[i].tempsBB,lignes_bdd[i].solDP,lignes_bdd[i].tempsDP,lignes_bdd[i].solBF,lignes_bdd[i].tempsBF,lignes_bdd[i].solNF,lignes_bdd[i].tempsNF,lignes_bdd[i].solFF,lignes_bdd[i].tempsFF,lignes_bdd[i].solWF,lignes_bdd[i].tempsWF,lignes_bdd[i].solMet_one,lignes_bdd[i].tempsMet_one,lignes_bdd[i].solMet_two,lignes_bdd[i].tempsMet_two,lignes_bdd[i].solMet_three,lignes_bdd[i].tempsMet_three);
   }
 
 $(document).ready(function() {
@@ -896,6 +896,7 @@ $(document).ready(function() {
             {title : "Poids min"},
             {title : "Poids moyen"},
             {title : "Poids max"},
+            { title: "Solution optimale" },
             { title: "Solution B&B" },
             { title: "Temps B&B" },
             { title: "Solution Prog-Dyn" },
