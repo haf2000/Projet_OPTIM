@@ -2,9 +2,9 @@
 
 
  
-set_time_limit(1000); 
-ini_set('memory_limit', '-1');
-
+set_time_limit(100000); 
+ini_set('memory_limit', -1);
+//ini_set('memory_limit', -1);
 
 /*Définition de la classe objet*/
 class item
@@ -120,12 +120,12 @@ class Binpacker
                 else
                   {
                     
-                              if (($j < $items[$m]) &&( $j > 0)) {
+                              if ($j < $items[$m])  {
 
                                 $tv[$m][$j] =$tv[$m - 1][$j];
                               }
                               else {
-                                $tv[$m][$j] = $tv[$m - 1][$j] || $tv[$m - 1][$j - $items[$m]];
+                                if($j>0)  {$tv[$m][$j] = $tv[$m - 1][$j] || $tv[$m - 1][$j - $items[$m]];}
                               }
                           }
                     }
@@ -237,7 +237,6 @@ class Binpacker
 
 } 
  /**********************************************************************Test***********************************************************************************************/
-
 include "lire_instances.php";
 
 $servername = "localhost";
@@ -253,7 +252,7 @@ if ($conn->connect_error) {
 	echo "lol";
   die("Connection failed: " . $conn->connect_error);
 }
-  //  echo "Connected successfully";
+  echo "Connected successfully";
 
 
 $sql = "SELECT * FROM `resultats` WHERE 1";
@@ -284,20 +283,17 @@ if ($result->num_rows > 0) {
   $capacite = $structure["capacite"];
   $nombre_objets = $structure["nombre_objets"];
   $liste_obj = $structure["liste_poids_objets"];
-   
-   echo $nombre_objets;
-   echo "capacite".$capacite;
-// Programmation dynamique
-   $timestart=microtime(true);
 
-   $packer = new Binpacker($capacite); // capacité 
+
+// Programmation dynamique
+$timestart=microtime(true);
+$packer = new Binpacker($capacite); // capacité 
 $packer->setItems($liste_obj);
 $packer->packItems();
  $solDP = count($packer->bins);
  $timeend=microtime(true);
    $time=$timeend-$timestart;
    $tempsDP = number_format($time, 5);
-   echo "sol : ".$solDP;
 
 
 

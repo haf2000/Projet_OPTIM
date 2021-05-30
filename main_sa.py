@@ -24,7 +24,7 @@ if __name__ == '__main__':
         database="optim"
     )
     if mydb.is_connected():
-        # print("Successfully connected !")
+         print("Successfully connected !")
 
     cursor = mydb.cursor()
     query = ("SELECT id,nom_instance, type_instance FROM resultats "

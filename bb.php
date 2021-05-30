@@ -1,6 +1,6 @@
 <?php 
 
-set_time_limit(1000); 
+set_time_limit(1000000); 
 ini_set('memory_limit', '-1');
 
 class Node
@@ -69,7 +69,6 @@ for ( $k = 0 ; $k < $l; $k++){
         array_push($list_nodes,$currentNode);
 
         $cnt = count($list_nodes);
-
         #Parcourt des noeuds pour les évaluer 
         while (count($list_nodes) > 0) {  
 
@@ -166,6 +165,9 @@ return $optimal_value;
 
 
 
+
+
+
 include "lire_instances.php";
 
 $servername = "localhost";
@@ -216,8 +218,10 @@ if ($result->num_rows > 0) {
   $liste_obj = $structure["liste_poids_objets"];
 
      // BRANCH & BOUND
+  $tempsBB = 0; $solBB  = 0;
   $timestart=microtime(true);
-    $solBB  = branch_bound($liste_obj,$nombre_objets,$capacite);
+  var_dump($liste_obj);
+ $solBB  = branch_bound($liste_obj,$nombre_objets,$capacite);
   $timeend=microtime(true);
   $time=$timeend-$timestart;
   $tempsBB = number_format($time, 5);
@@ -233,7 +237,7 @@ $sql = "UPDATE resultats SET `poids_moyen`='$poids_moyen',`capacite`='$capacite'
 
 
 if ($conn->query($sql) === TRUE) {
-  echo "Record updated successfully";
+  echo "Record updated successfully<br>";
 } else {
   echo "Error updating record: " . $conn->error;
 } 

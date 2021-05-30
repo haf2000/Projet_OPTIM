@@ -31,12 +31,15 @@ function lire_instance_facile($instance){
    while(!feof($ressource)){
     $p = fgets($ressource);
     if($i >= 2){
-       $liste_poids_objets[$i-2] = intval($p);
+       $val = intval($p);
+       if($val != 0 ){
+        $liste_poids_objets[$i-2] = $val;
+       }
     }
      $i++;
    }
 
- $Nbr_objets = count($liste_poids_objets)-1;
+ $Nbr_objets = count($liste_poids_objets);
   $structure = array(
     "nom_inst" =>  $instanceNAME,
     "capacite" => $cap_bin ,
@@ -97,12 +100,15 @@ if($B == "B1"){
    while(!feof($ressource)){
        $p = fgets($ressource);
     if($i >= 2){
-       $liste_poids_objets[$i-2] = intval($p);
+       $val = intval($p);
+       if($val != 0 ){
+        $liste_poids_objets[$i-2] = $val;
+       }
     }
      $i++;
    }
 
-  $Nbr_objets = count($liste_poids_objets)-1;
+  $Nbr_objets = count($liste_poids_objets);
   
   $structure = array(
    "nom_inst" =>  $instanceNAME,
@@ -136,12 +142,14 @@ $liste_poids_objets=array();
    while(!feof($ressource)){
     $p = fgets($ressource);
     if($i >= 2){
-       $liste_poids_objets[$i-2] = intval($p);
-    }
-     $i++;
+       $val = intval($p);
+       if($val != 0 ){
+        $liste_poids_objets[$i-2] = $val;
+       }
+    }     $i++;
    }
 
-  $Nbr_objets = count($liste_poids_objets)-1;
+  $Nbr_objets = count($liste_poids_objets);
   
   $structure = array(
        "nom_inst" =>  $instanceNAME,

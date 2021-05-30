@@ -55,6 +55,7 @@
         <ul>
           <li class="active"><a href="index.php">Accueil</a></li>
           <li><a href="#about">Instances</a></li>
+          <li><a href="./inst.php">Instances prédéfinies</a></li>
           <li><a href="#services">Résultat</a></li>
           <li><a href="#portfolio">Statistiques</a></li>
           
@@ -583,32 +584,6 @@ var option3 = document.createElement("option");
   
   function Validate_faciles(id){
 
-//    $(document).ready(function() {
-//    var table_instances_faciles = getValues(id);
-//    var j=0;
-//    for (var i = 0 ; i <table_instances_faciles.length ; i++) {
-//      var inst = table_instances_faciles[i];
-   
-//     var str; // va contenir la structure en cours 
-     
-//     $.ajax({
-//    url: "./instance_facile.php",
-//    method: "POST",
-//    data: {inst: inst},
-//    success: function (result) {
-//     j++;
-//       console.log(result);
-//      if(j == table_instances_faciles.length){
-//      alert("Instances faciles traitées avec succès.");
-//      }
-//    }
-//  });
-   
-
-//    }
-
-// });
-
 
    $(document).ready(function() {
    var table_instances_faciles = getValues(id);
@@ -670,30 +645,6 @@ var option3 = document.createElement("option");
    }
 
 });
-//    $(document).ready(function() {
-//    var table_instances_moyennes = getValues(id);
-//       var j=0;
-//    for (var i = 0 ; i <table_instances_moyennes.length ; i++) {
-//      var inst = table_instances_moyennes[i];
-
-//     var str; // va contenir la structure en cours 
-     
-//     $.ajax({
-//    url: "./instance_moyenne.php",
-//    method: "POST",
-//    data: {inst: inst},
-//    success: function (result) {
-//     j++;
-//       console.log(result);
-//     if(j == table_instances_moyennes.length){
-//       alert("Instances moyennes traitées avec succès.");
-//      }
-//    }
-//  }); 
-  
-//    }
-
-// });
 
   }
 
@@ -725,31 +676,7 @@ var option3 = document.createElement("option");
    }
 
 });
-//    $(document).ready(function() {
-//    var table_instances_difficiles = getValues(id);
-//    var j=0;
-//    for (var i = 0 ; i <table_instances_difficiles.length ; i++) {
-//      var inst = table_instances_difficiles[i];
 
-//     var str; // va contenir la structure en cours 
-     
-//     $.ajax({
-//    url: "./instance.php",
-//    method: "POST",
-//    data: {inst: inst},
-//    success: function (result) {
-//     j++;
-//       console.log(result);
-
-//     if(j == table_instances_difficiles.length){
-//       alert("Instances difficiles traitées avec succès.");
-//      }
-//    }
-//  }); 
-  
-//    }
-
-// });
 
   }
 
@@ -908,7 +835,6 @@ $connexion = new mysqli($servername, $username, $password, $dbname);
 if ($connexion->connect_error) {
   die("Connection failed: " . $connexion->connect_error);
 }
-  //  echo "Connected successfully";
 $sql = "SELECT * FROM `resultats` WHERE 1";
 $result = $connexion->query($sql);
 
@@ -1103,7 +1029,7 @@ const backgroundColorVAR = [
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(255, 159, 64, 0.2)',
                 'rgba(233, 159, 85, 0.2)',
-                'rgba(70, 15, 85, 0.2)',
+                'rgba(70, 89, 85, 0.2)',
             ];
 const borderColorVAR = [
                 'rgba(255, 99, 132, 1)',
@@ -1113,7 +1039,7 @@ const borderColorVAR = [
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)',
                 'rgba(233, 159, 85, 1)',
-                'rgba(70, 15, 85, 1)',
+                'rgba(70, 89, 85, 1)',
             ];
 
 
