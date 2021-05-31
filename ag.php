@@ -2,7 +2,7 @@
 
 
 /***************************** INTEGRATION ***************************/
-set_time_limit(1000); 
+set_time_limit(100000); 
 
 include "lire_instances.php";
 

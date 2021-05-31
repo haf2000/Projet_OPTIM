@@ -356,6 +356,55 @@
      <div class="row">
      <canvas id="myChart9"></canvas>       
      </div>
+   <br>      <br><br>      
+   <h5 class="text-center" style="color: rgba(255, 206, 86, 1)">Temps d'exécution en fonction du nombre de bins (méthodes exactes)</h5>
+     <div class="row">
+   <div class="col-lg-6">
+     <canvas id="myChart10" height="400"></canvas>
+
+   </div>
+   <div class="col-lg-6" >
+     <canvas id="myChart11" height="400"></canvas>
+
+   </div>
+
+     </div>
+
+        <br>      <br><br>      
+   <h5 class="text-center" style="color: rgba(255, 206, 86, 1)">Temps d'exécution en fonction du nombre de bins (Heuristiques)</h5>
+     <div class="row">
+   <div class="col-lg-6">
+     <canvas id="myChart12" height="400"></canvas>
+   </div>
+   <div class="col-lg-6">
+     <canvas id="myChart13" height="400"></canvas>
+   </div>
+    <div class="col-lg-6">
+     <canvas id="myChart14" height="400"></canvas>
+   </div>
+   <div class="col-lg-6">
+     <canvas id="myChart15" height="400"></canvas>
+   </div>
+
+     </div>
+
+
+     <br><br><br>
+      <div class="row">
+   <div class="col-lg-4">
+     <canvas id="myChart16" height="400"></canvas>
+   </div>
+   <div class="col-lg-4">
+     <canvas id="myChart17" height="400"></canvas>
+   </div>
+    <div class="col-lg-4">
+     <canvas id="myChart18" height="400"></canvas>
+   </div>
+
+
+     </div>
+
+
       </div>
     </section><!-- End Portfolio Section -->
 
@@ -1799,7 +1848,262 @@ const config8 = {
     config8
   );
 
+     //----------------------------Charte 10--------------------------------
 
+const donnBB = [];
+const labBB = [];
+for (var i = 0; i < methodeBB.length; i++) {
+  donnBB[i] = methodeBB[i];
+  labBB[i] = methodeBB_nombrebins[i];
+}
+
+const data10 = {
+  labels: labBB,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnBB,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config10 = {
+  type: 'line',
+  data: data10,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par BB'
+      }
+    }
+  },
+};
+
+  var myChart10 = new Chart(
+    document.getElementById('myChart10'),
+    config10
+  );
+
+   //----------------------------Charte 11--------------------------------
+
+const donnDP = [];
+const labDP = [];
+for (var i = 0; i < methodePD.length; i++) {
+  donnDP[i] = methodePD[i];
+  labDP[i] = methodePD_nombrebins[i];
+}
+
+const data11 = {
+  labels: labDP,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnDP,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config11 = {
+  type: 'line',
+  data: data11,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par Prog-dynamique'
+      }
+    }
+  },
+};
+
+  var myChart11 = new Chart(
+    document.getElementById('myChart11'),
+    config11
+  );
+
+ //----------------------------Charte 12--------------------------------
+
+const donnBF = [];
+const labBF = [];
+for (var i = 0; i < methodeBF.length; i++) {
+  donnBF[i] = methodeBF[i];
+  labBF[i] = methodeBF_nombrebins[i];
+}
+
+const data12 = {
+  labels: labBF,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnBF,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config12 = {
+  type: 'line',
+  data: data12,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par BestFit'
+      }
+    }
+  },
+};
+
+  var myChart12 = new Chart(
+    document.getElementById('myChart12'),
+    config12
+  );
+
+ //----------------------------Charte 15--------------------------------
+
+const donnWF = [];
+const labWF = [];
+for (var i = 0; i < methodeWF.length; i++) {
+  donnWF[i] = methodeWF[i];
+  labWF[i] = methodeWF_nombrebins[i];
+}
+
+const data15 = {
+  labels: labWF,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnWF,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config15 = {
+  type: 'line',
+  data: data15,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par WorstFit'
+      }
+    }
+  },
+};
+
+  var myChart15 = new Chart(
+    document.getElementById('myChart15'),
+    config15
+  );
+
+   //----------------------------Charte 14--------------------------------
+
+const donnFF = [];
+const labFF = [];
+for (var i = 0; i < methodeFF.length; i++) {
+  donnFF[i] = methodeFF[i];
+  labFF[i] = methodeFF_nombrebins[i];
+}
+
+const data14 = {
+  labels: labFF,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnFF,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config14 = {
+  type: 'line',
+  data: data14,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par FirstFit'
+      }
+    }
+  },
+};
+
+  var myChart14 = new Chart(
+    document.getElementById('myChart14'),
+    config14
+  );
+ //----------------------------Charte 13--------------------------------
+
+const donnNF = [];
+const labNF = [];
+for (var i = 0; i < methodeNF.length; i++) {
+  donnNF[i] = methodeNF[i];
+  labNF[i] = methodeNF_nombrebins[i];
+}
+
+const data13 = {
+  labels: labNF,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnNF,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config13 = {
+  type: 'line',
+  data: data13,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par NextFit'
+      }
+    }
+  },
+};
+
+  var myChart13 = new Chart(
+    document.getElementById('myChart13'),
+    config13
+  );
      //----------------------------Charte 9--------------------------------
  // on calcule le temps d execution moyen de toutes les methodes
 const donnees = [];
@@ -1928,7 +2232,140 @@ const config9 = {
     document.getElementById('myChart9'),
     config9
   );
+
+
+//----------------------------Charte 18--------------------------------
+
+const donnRT = [];
+const labRT = [];
+for (var i = 0; i < methodeMT3.length; i++) {
+  donnRT[i] = methodeMT3[i];
+  labRT[i] = methodeMT3_nombrebins[i];
+}
+
+const data18 = {
+  labels: labRT,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnRT,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config18 = {
+  type: 'line',
+  data: data18,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par RT'
+      }
+    }
+  },
+};
+
+  var myChart18 = new Chart(
+    document.getElementById('myChart18'),
+    config18
+  );
+
+
+
+//----------------------------Charte 17--------------------------------
+
+const donnRS = [];
+const labRS = [];
+for (var i = 0; i < methodeMT2.length; i++) {
+  donnRS[i] = methodeMT2[i];
+  labRS[i] = methodeMT2_nombrebins[i];
+}
+
+const data17 = {
+  labels: labRS,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnRS,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config17 = {
+  type: 'line',
+  data: data17,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par RS'
+      }
+    }
+  },
+};
+
+  var myChart17 = new Chart(
+    document.getElementById('myChart17'),
+    config17
+  );
+
  
+//----------------------------Charte 16--------------------------------
+
+const donnAG = [];
+const labAG = [];
+for (var i = 0; i < methodeMT1.length; i++) {
+  donnAG[i] = methodeMT1[i];
+  labAG[i] = methodeMT1_nombrebins[i];
+}
+
+const data16 = {
+  labels: labAG,
+  datasets: [
+    {
+      label: 'Temps d\'exécution = f(nombre de bins)',
+      data: donnAG,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+  ]
+};
+
+const config16 = {
+  type: 'line',
+  data: data16,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Le temps d\'exécution en fonction du nombre de bins obtenu par AG'
+      }
+    }
+  },
+};
+
+  var myChart16 = new Chart(
+    document.getElementById('myChart16'),
+    config16
+  );
+
 </script>
 
 <!-- *********************************************************************************** -->
