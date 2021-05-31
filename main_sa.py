@@ -60,6 +60,16 @@ if __name__ == '__main__':
                 data = file.read().splitlines()
                 num_items, capacity, items = int(data[0]), int(data[1]), data[2:]
 
+        if format(dataset["type"]) == '3':
+            with open('assets/Falkenauer/Falkenauer U/{}'.format(dataset["name"]), 'r') as file:
+                data = file.read().splitlines()
+                num_items, capacity, items = int(data[0]), int(data[1]), data[2:]
+
+        if format(dataset["type"]) == '4':
+            with open('assets/Falkenauer/Falkenauer_T/{}'.format(dataset["name"]), 'r') as file:
+                data = file.read().splitlines()
+                num_items, capacity, items = int(data[0]), int(data[1]), data[2:]
+
         
         items = [Item(size=int(i)) for i in items]
         # Perform 30 independent iterations.
@@ -119,6 +129,10 @@ if __name__ == '__main__':
             if format(dataset["type"]) == '1':
                 add_results = ("UPDATE resultats SET poids_moyen= %s, capacite= %s, nombre_objets= %s, solMet_two= %s, tempsMet_two=%s WHERE id = %s")
                 data_add_results = (dataset["poids_moyen"],capacity,num_items,summary.get("num_bins"),summary.get("execution_time"),dataset["id"])
+
+            if format(dataset["type"]) == '3' or format(dataset["type"]) == '4':
+                add_results = ("UPDATE resultats SET capacite= %s, nombre_objets= %s, solMet_two= %s, tempsMet_two=%s WHERE id = %s")
+                data_add_results = (capacity,num_items,summary.get("num_bins"),summary.get("execution_time"),dataset["id"])
             
             cursor.execute(add_results, data_add_results)
             mydb.commit()

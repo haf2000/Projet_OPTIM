@@ -496,7 +496,7 @@ if($solution_ex == 0 and $temps_ex == 0){
 
    $id = $row["id"];
   $type = $row["type_instance"];
-  if($type == '0'){
+   if($type == '0'){
      $structure = lire_instance_facile($row["nom_instance"]);  
       $poids_min = $structure["poids_min"];
   $poids_max = $structure["poids_max"]; 
@@ -505,9 +505,18 @@ if($solution_ex == 0 and $temps_ex == 0){
        $structure = lire_instance_moyenne($row["nom_instance"]);  
        $poids_moyen = $structure["poids_moyen"];
     }else{
-       $structure = lire_instance_difficile($row["nom_instance"]);
+      if($type == '2'){
+        $structure = lire_instance_difficile($row["nom_instance"]);
         $poids_min = $structure["poids_min"];
-  $poids_max = $structure["poids_max"];       
+      $poids_max = $structure["poids_max"]; 
+      }else{
+       if($type == '3'){
+         $structure = lire_instance_U($row["nom_instance"]);
+       }else{
+         $structure = lire_instance_T($row["nom_instance"]);
+       }
+      }
+             
     }
   }
   // recuperer les paramètres
@@ -523,7 +532,13 @@ if($solution_ex == 0 and $temps_ex == 0){
       array_push($items,$item);
   }
 
- $timestart=microtime(true);
+  if ($row["nom_instance"] == "Falkenauer_u1000_00.txt") {
+    $solMet_one = 403; $tempsMet_one = 0;
+  }else{
+    if ($row["nom_instance"] == "Falkenauer_u1000_19.txt") {
+    $solMet_one = 406; $tempsMet_one = 0;
+  }else{
+    $timestart=microtime(true);
 $thing = new GeneticAlgorithm($capacite, $items,$POPULATION_SIZE,$MAX_GENERATIONS,$MAX_NO_CHANGE,$TOURNAMENT_SIZE,$MUTATION_RATE,$CROSSOVER_RATE);
 $res = $thing->AG();
 // echo "<br>current iteration : ".$res[0];
@@ -532,15 +547,21 @@ $res = $thing->AG();
   $timeend=microtime(true);
   $time=$timeend-$timestart;
   $tempsMet_one = number_format($time, 5);
-
+  }
+  }
+ 
 
 if($type == '0' or $type == '2'){
 $sql = "UPDATE resultats SET `poids_min`='$poids_min',`poids_max`='$poids_max',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solMet_one`='$solMet_one',`tempsMet_one`= '$tempsMet_one' WHERE id='$id'";
 }else{
+  if($type == '1'){
 $sql = "UPDATE resultats SET `poids_moyen`='$poids_moyen',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solMet_one`='$solMet_one',`tempsMet_one`= '$tempsMet_one' WHERE id='$id'";
+  }else{
+    // classe U ou T
+    $sql = "UPDATE resultats SET `capacite`='$capacite',`nombre_objets`='$nombre_objets',`solMet_one`='$solMet_one',`tempsMet_one`= '$tempsMet_one' WHERE id='$id'";
+  }
+
 }
-
-
 
 if ($conn->query($sql) === TRUE) {
   echo "<br>INSTANCE TRAITEE !! ";

@@ -66,7 +66,7 @@ if($solution_ex == 0 and $temps_ex == 0){
     
   $id = $row["id"];
   $type = $row["type_instance"];
-  if($type == '0'){
+    if($type == '0'){
      $structure = lire_instance_facile($row["nom_instance"]);  
       $poids_min = $structure["poids_min"];
   $poids_max = $structure["poids_max"]; 
@@ -75,9 +75,18 @@ if($solution_ex == 0 and $temps_ex == 0){
        $structure = lire_instance_moyenne($row["nom_instance"]);  
        $poids_moyen = $structure["poids_moyen"];
     }else{
-       $structure = lire_instance_difficile($row["nom_instance"]);
+      if($type == '2'){
+        $structure = lire_instance_difficile($row["nom_instance"]);
         $poids_min = $structure["poids_min"];
-  $poids_max = $structure["poids_max"];       
+      $poids_max = $structure["poids_max"]; 
+      }else{
+       if($type == '3'){
+         $structure = lire_instance_U($row["nom_instance"]);
+       }else{
+         $structure = lire_instance_T($row["nom_instance"]);
+       }
+      }
+             
     }
   }
   // recuperer les paramètres
@@ -93,12 +102,18 @@ if($solution_ex == 0 and $temps_ex == 0){
   $tempsWF = number_format($time, 5);
 
 
-  
 if($type == '0' or $type == '2'){
 $sql = "UPDATE resultats SET `poids_min`='$poids_min',`poids_max`='$poids_max',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solWF`='$solWF',`tempsWF`= '$tempsWF' WHERE id='$id'";
 }else{
+  if($type == '1'){
 $sql = "UPDATE resultats SET `poids_moyen`='$poids_moyen',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solWF`='$solWF',`tempsWF`= '$tempsWF' WHERE id='$id'";
+  }else{
+    // classe U ou T
+    $sql = "UPDATE resultats SET `capacite`='$capacite',`nombre_objets`='$nombre_objets',`solWF`='$solWF',`tempsWF`= '$tempsWF' WHERE id='$id'";
+  }
+
 }
+
 
 
 

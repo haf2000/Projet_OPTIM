@@ -97,7 +97,7 @@
 
 
     <div class="col-lg-6" style="display: inline-block;font-weight: bold;color: grey;">
-     Instances faciles :  <select class="form-control" id="brandsMulti" multiple size="1"></select>
+     Instances faciles(Scholl): <select class="form-control" id="brandsMulti" multiple size="1"></select>
     </div>
     <br><br>
 
@@ -136,7 +136,7 @@
 
 
     <div class="col-lg-6" style="display: inline-block;font-weight: bold;color: grey;">
-     Instances moyennes :  <select class="form-control" id="brandsMulti2" multiple size="1"></select>
+     Instances moyennes(Scholl): <select class="form-control" id="brandsMulti2" multiple size="1"></select>
     </div>
     <br><br>
 
@@ -174,7 +174,7 @@
 
 
     <div class="col-lg-6" style="display: inline-block;font-weight: bold;color: grey;">
-     Instances difficiles :  <select class="form-control" id="brandsMulti3" multiple size="1"></select>
+     Instances difficiles (Scholl):  <select class="form-control" id="brandsMulti3" multiple size="1"></select>
     </div>
     <br><br>
 
@@ -200,6 +200,70 @@
     
 <br><br>
 <!-- FIN Instances difficiles -->
+<!-- Debut isntance Faulker -->
+
+<div class="row justify-content-center align-items-center" id="demo-multiple4">
+    
+   
+
+
+    <div class="col-lg-6" style="display: inline-block;font-weight: bold;color: grey;">
+     Instances(Falkenauer) classe U : <select class="form-control" id="brandsMulti4" multiple size="1"></select>
+    </div>
+    <br><br>
+
+     <div class="col-lg-6">
+           <div class="btns-active4 col-lg-12">
+      <button class="btn btn-dark" onClick="empty('brandsMulti4')">Désélectionner tout</button>
+      <button class="btn btn-dark" onClick="setValues('brandsMulti4','all')">Sélectionner tout</button>
+     <button  class="btn btn-success" onClick="Validate_U('brandsMulti4')">Valider</button>&nbsp;
+&nbsp;
+&nbsp;
+    </div>
+    <div class="btns-inactive4" style="display:none";>
+      <button class="demo" onClick="init('brandsMulti4')">vanillaSelectBox()</button>
+    </div>
+     </div>
+
+   
+
+
+    </div>
+
+
+<div class="row justify-content-center align-items-center" id="demo-multiple5">
+    
+   
+
+
+    <div class="col-lg-6" style="display: inline-block;font-weight: bold;color: grey;">
+     Instances(Falkenauer) classe T : <select class="form-control" id="brandsMulti5" multiple size="1"></select>
+    </div>
+    <br><br>
+
+     <div class="col-lg-6">
+           <div class="btns-active5 col-lg-12">
+      <button class="btn btn-dark" onClick="empty('brandsMulti5')">Désélectionner tout</button>
+      <button class="btn btn-dark" onClick="setValues('brandsMulti5','all')">Sélectionner tout</button>
+     <button  class="btn btn-success" onClick="Validate_T('brandsMulti5')">Valider</button>&nbsp;
+&nbsp;
+&nbsp;
+    </div>
+    <div class="btns-inactive5" style="display:none";>
+      <button class="demo" onClick="init('brandsMulti5')">vanillaSelectBox()</button>
+    </div>
+     </div>
+
+   
+
+
+    </div>
+
+<br>
+<br>
+<br>
+<br>
+
   <div class="row">
        <button onClick="lancerdyn()" class="btn btn-info" style="margin:5px;">Programmation Dynamique</button> 
       <button onClick="lancerBB()" class="btn btn-info" style="margin:5px;">Branch&Bound</button> 
@@ -245,13 +309,10 @@
         <div class="row">
 <canvas id="myChart"></canvas>
         </div>
-      <br>
-      <br>
-        <div class="row">
-<canvas id="myChart2"></canvas>
-        </div>
-      <br>
-      <br>
+      
+        <br>
+      <br>      <br>
+
      <div class="row">
    <div class="col-lg-4">
      <canvas id="myChart3" height="400"></canvas>
@@ -265,6 +326,15 @@
      <canvas id="myChart5" height="400"></canvas>
    </div>
      </div>
+
+      <br>
+      <br>
+      <br>
+
+        <div class="row">
+<canvas id="myChart2"></canvas>
+        </div>
+    
      <br>
       <br>
      <div class="row">
@@ -281,7 +351,8 @@
    </div>
      </div>
 <br>
-      <br>
+      <br>      <br>
+
      <div class="row">
      <canvas id="myChart9"></canvas>       
      </div>
@@ -357,9 +428,13 @@
 $dir1    = './assets/Scholl/Scholl_1';
 $dir2    = './assets/Scholl/Scholl_2';
 $dir3    = './assets/Scholl/Scholl_3';
+$dir4    = './assets/Falkenauer/Falkenauer U';
+$dir5    = './assets/Falkenauer/Falkenauer_T';
 $files1 = scandir($dir1);
 $files2 = scandir($dir2);
-$files3 = scandir($dir3);
+$files3 = scandir($dir3); 
+$files4 = scandir($dir4); 
+$files5 = scandir($dir5); 
 
 ?>
 
@@ -368,6 +443,8 @@ $files3 = scandir($dir3);
 var instances_faciles = <?php echo json_encode($files1); ?>;
 var instances_moyennes = <?php echo json_encode($files2); ?>;
 var instances_difficiles = <?php echo json_encode($files3); ?>;
+var instances_f_U = <?php echo json_encode($files4); ?>;
+var instances_f_T = <?php echo json_encode($files5); ?>;
 
 </script>
 <script>
@@ -388,11 +465,23 @@ var instances_difficiles = <?php echo json_encode($files3); ?>;
     for (var i = 2; i < instances_difficiles.length ; i++) {
       brands3[i-2] = instances_difficiles[i];
     }
+  // initialiser les instances U
+    brands4 = []; ;
+    for (var i = 2; i < instances_f_U.length ; i++) {
+      brands4[i-2] = instances_f_U[i];
+    }
+// initialiser les instances T
+    brands5 = []; ;
+    for (var i = 2; i < instances_f_T.length ; i++) {
+      brands5[i-2] = instances_f_T[i];
+    }
 
 
     let select2 = document.getElementById("brandsMulti");
     let select3 = document.getElementById("brandsMulti2");
     let select4 = document.getElementById("brandsMulti3");
+    let select5 = document.getElementById("brandsMulti4");
+    let select6 = document.getElementById("brandsMulti5");
 
     var option = document.createElement("option");
     option.value = "";
@@ -405,6 +494,14 @@ var option2 = document.createElement("option");
 var option3 = document.createElement("option");
     option3.value = "";
     option3.text = "";
+
+var option4 = document.createElement("option");
+    option4.value = "";
+    option4.text = "";
+
+var option5 = document.createElement("option");
+    option5.value = "";
+    option5.text = "";
 
     for (var i = 0;
      i < brands.length;
@@ -433,10 +530,30 @@ var option3 = document.createElement("option");
         option3.text = brands3[i];
         select4.appendChild(option3);
     }
+
+    for (var i = 0;
+     i < brands4.length;
+     i++) {
+        var option4 = document.createElement("option");
+        option4.value = brands4[i];
+        option4.text = brands4[i];
+        select5.appendChild(option4);
+    }
+
+    for (var i = 0;
+     i < brands5.length;
+     i++) {
+        var option5 = document.createElement("option");
+        option5.value = brands5[i];
+        option5.text = brands5[i];
+        select6.appendChild(option5);
+    }
      
     let selectBox2 = null;
     let selectBox3 = null;
     let selectBox4 = null;
+    let selectBox5 = null;
+    let selectBox6 = null;
 
     function setEnable(id, isEnabled) {
         if (id == "brandsMulti" && selectBox2 != null) {
@@ -462,6 +579,21 @@ var option3 = document.createElement("option");
                 selectBox4.disable();
             }
         }
+
+        if (id == "brandsMulti4" && selectBox5 != null) {
+            if (isEnabled) {
+                selectBox5.enable();
+            } else {
+                selectBox5.disable();
+            }
+        }
+        if (id == "brandsMulti5" && selectBox6 != null) {
+            if (isEnabled) {
+                selectBox6.enable();
+            } else {
+                selectBox6.disable();
+            }
+        }
     }
 
     function empty(id) {
@@ -475,6 +607,12 @@ var option3 = document.createElement("option");
 
         if (id == "brandsMulti3" && selectBox4 != null) {
             selectBox4.empty();
+        }
+        if (id == "brandsMulti4" && selectBox5 != null) {
+            selectBox5.empty();
+        }
+        if (id == "brandsMulti5" && selectBox6 != null) {
+            selectBox6.empty();
         }
     }
 
@@ -506,6 +644,25 @@ var option3 = document.createElement("option");
             buttons = zone.querySelector(".btns-active3");
             buttons.style.display = "none";
             buttons = zone.querySelector(".btns-inactive3");
+            buttons.style.display = "block";
+
+        }
+
+        if (id == "brandsMulti4" && selectBox5 != null) {
+            selectBox5.destroy();
+            let zone = document.getElementById("demo-multiple4");
+            buttons = zone.querySelector(".btns-active4");
+            buttons.style.display = "none";
+            buttons = zone.querySelector(".btns-inactive4");
+            buttons.style.display = "block";
+
+        }
+        if (id == "brandsMulti5" && selectBox6 != null) {
+            selectBox5.destroy();
+            let zone = document.getElementById("demo-multiple5");
+            buttons = zone.querySelector(".btns-active5");
+            buttons.style.display = "none";
+            buttons = zone.querySelector(".btns-inactive5");
             buttons.style.display = "block";
 
         }
@@ -543,6 +700,27 @@ var option3 = document.createElement("option");
             buttons.style.display = "none";
 
         }
+
+        if (id == "brandsMulti4") {
+        
+            selectBox5 = new vanillaSelectBox("#brandsMulti4", {"disableSelectAll": true, "maxHeight": 200, "search": true ,"translations": { "all": "All", "items": "items","selectAll":"Check All","clearAll":"Clear All"}});
+            let zone = document.getElementById("demo-multiple4");
+            buttons = zone.querySelector(".btns-active4");
+            buttons.style.display = "block";
+            buttons = zone.querySelector(".btns-inactive4");
+            buttons.style.display = "none";
+
+        }
+        if (id == "brandsMulti5") {
+        
+            selectBox6 = new vanillaSelectBox("#brandsMulti5", {"disableSelectAll": true, "maxHeight": 200, "search": true ,"translations": { "all": "All", "items": "items","selectAll":"Check All","clearAll":"Clear All"}});
+            let zone = document.getElementById("demo-multiple5");
+            buttons = zone.querySelector(".btns-active5");
+            buttons.style.display = "block";
+            buttons = zone.querySelector(".btns-inactive5");
+            buttons.style.display = "none";
+
+        }
     }
     function setValues(id, value) {
        if (id == "brandsMulti" && selectBox2 != null) {
@@ -555,6 +733,12 @@ var option3 = document.createElement("option");
 
         if (id == "brandsMulti3" && selectBox4 != null) {
             selectBox4.setValue(value);
+        }
+        if (id == "brandsMulti4" && selectBox5 != null) {
+            selectBox5.setValue(value);
+        }
+        if (id == "brandsMulti5" && selectBox6 != null) {
+            selectBox6.setValue(value);
         }
     }
     function getValues(id) {
@@ -572,6 +756,8 @@ var option3 = document.createElement("option");
     init("brandsMulti");
     init("brandsMulti2");
     init("brandsMulti3");
+    init("brandsMulti4");
+    init("brandsMulti5");
          </script>
 
 <!-- <********************************BOUCLES DES INSTANCES********************************>-->
@@ -677,6 +863,64 @@ var option3 = document.createElement("option");
 
 });
 
+
+  }
+  //------------------------------------------------
+  function Validate_U(id){
+  $(document).ready(function() {
+   var table_instances_U = getValues(id);
+   var j=0;
+   for (var i = 0 ; i <table_instances_U.length ; i++) {
+     var inst = table_instances_U[i];
+
+    var str; 
+     
+    $.ajax({
+   url: "./save_instances_U.php",
+   method: "POST",
+   data: {inst: inst},
+   success: function (result) {
+    j++;
+      console.log(result);
+
+    if(j == table_instances_U.length){
+      alert("Instances Falkenauer de classe U lues avec succès.");
+     }
+   }
+ }); 
+  
+   }
+
+});
+
+  }
+  //------------------------------------------------
+  function Validate_T(id){
+ $(document).ready(function() {
+   var table_instances_T = getValues(id);
+   var j=0;
+   for (var i = 0 ; i <table_instances_T.length ; i++) {
+     var inst = table_instances_T[i];
+
+    var str; 
+     
+    $.ajax({
+   url: "./save_instances_T.php",
+   method: "POST",
+   data: {inst: inst},
+   success: function (result) {
+    j++;
+      console.log(result);
+
+    if(j == table_instances_T.length){
+      alert("Instances Falkenauer de classe T lues avec succès.");
+     }
+   }
+ }); 
+  
+   }
+
+});
 
   }
 
@@ -867,17 +1111,27 @@ $connexion->close();
       $type = "Facile";
     }else{
       if(lignes_bdd[i].type_instance == '1'){
-      $type = "Moyenne";
+      $type = "Moyenne"; $type = "Difficile";
     }else{
+      if(lignes_bdd[i].type_instance == '2'){
       $type = "Difficile";
+    }else{
+      if(lignes_bdd[i].type_instance == '3'){
+      $type = "Classe U";
+    }else{
+      $type = "Classe T";
     }
     }
-    if (lignes_bdd[i].poids_max == "0" && lignes_bdd[i].poids_min == "0"){
-     lignes_bdd[i].poids_max = "";
-     lignes_bdd[i].poids_min = "";
+    }
+    }
+    if (lignes_bdd[i].poids_max == "0"){
+     lignes_bdd[i].poids_max = "-----";
+    }
+    if(lignes_bdd[i].poids_min == "0"){
+     lignes_bdd[i].poids_min = "-----";      
     }
     if(lignes_bdd[i].poids_moyen == "0"){
-  lignes_bdd[i].poids_moyen = "";
+  lignes_bdd[i].poids_moyen = "-----";
     }
     dataSet[i] = new Array(lignes_bdd[i].nom_instance,$type,lignes_bdd[i].capacite, lignes_bdd[i].nombre_objets,lignes_bdd[i].poids_min,lignes_bdd[i].poids_moyen,lignes_bdd[i].poids_max,lignes_bdd[i].solution_optimale,lignes_bdd[i].solBB,lignes_bdd[i].tempsBB,lignes_bdd[i].solDP,lignes_bdd[i].tempsDP,lignes_bdd[i].solBF,lignes_bdd[i].tempsBF,lignes_bdd[i].solNF,lignes_bdd[i].tempsNF,lignes_bdd[i].solFF,lignes_bdd[i].tempsFF,lignes_bdd[i].solWF,lignes_bdd[i].tempsWF,lignes_bdd[i].solMet_one,lignes_bdd[i].tempsMet_one,lignes_bdd[i].solMet_two,lignes_bdd[i].tempsMet_two,lignes_bdd[i].solMet_three,lignes_bdd[i].tempsMet_three);
   }
@@ -990,6 +1244,7 @@ const methodePD = [];
 const methodeMT1 = [];
 const methodeMT2 = [];
 const methodeMT3 = [];
+const methodeOPTIM = [];
 const methodeFF_nombrebins = [];
 const methodeWF_nombrebins = [];
 const methodeBB_nombrebins = [];
@@ -1019,6 +1274,7 @@ const methodeMT3_nombrebins = [];
    methodeMT1_nombrebins[i] = instances[i].solMet_one;
    methodeMT2_nombrebins[i] = instances[i].solMet_two;
    methodeMT3_nombrebins[i] = instances[i].solMet_three;
+   methodeOPTIM[i] = instances[i].solution_optimale;
  }
 
 
@@ -1031,6 +1287,8 @@ const backgroundColorVAR = [
                 'rgba(255, 159, 64, 0.2)',
                 'rgba(233, 159, 85, 0.2)',
                 'rgba(70, 89, 85, 0.2)',
+                'rgba(204, 85, 12, 0.2)',
+                'rgba(206, 95, 80, 0.2)',
             ];
 const borderColorVAR = [
                 'rgba(255, 99, 132, 1)',
@@ -1041,6 +1299,9 @@ const borderColorVAR = [
                 'rgba(255, 159, 64, 1)',
                 'rgba(233, 159, 85, 1)',
                 'rgba(70, 89, 85, 1)',
+                'rgba(204, 85, 12, 1)',
+                'rgba(206, 95, 80, 1)',
+
             ];
 
 
@@ -1188,6 +1449,12 @@ const data2 = {
     {
       label: 'RT',
       data: methodeMT3_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }, 
+    {
+      label: 'Solution optimale',
+      data: methodeOPTIM,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     }
@@ -1382,6 +1649,12 @@ const data6 = {
       data: methodePD_nombrebins,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
+    }, 
+    {
+      label: 'Solution optimale',
+      data: methodeOPTIM,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
     }
   ]
 };
@@ -1438,7 +1711,13 @@ const data7 = {
       data: methodeWF_nombrebins,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
-    },
+    }, 
+    {
+      label: 'Solution optimale',
+      data: methodeOPTIM,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
   ]
 };
 
@@ -1485,6 +1764,13 @@ const data8 = {
     {
       label: 'Méta-heuristique RT',
       data: methodeMT3_nombrebins,
+      borderColor: borderColorVAR,
+      backgroundColor: backgroundColorVAR,
+    }
+    , 
+    {
+      label: 'Solution optimale',
+      data: methodeOPTIM,
       borderColor: borderColorVAR,
       backgroundColor: backgroundColorVAR,
     }

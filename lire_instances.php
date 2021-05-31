@@ -164,6 +164,70 @@ return $structure;
 }
 
 
+function lire_instance_T($instance){
+
+  $ressource = fopen('./assets/Falkenauer/Falkenauer_T/'.$instance, 'rb'); 
+$liste_poids_objets=array();
+  $i = 0;
+   while(!feof($ressource)){
+    $p = fgets($ressource);
+    if($i == 0 ){
+      $nombre_objets = intval($p);
+    }
+    if($i == 1 ){
+      $capacite = intval($p);
+    }
+    if($i >= 2){
+       $val = intval($p);
+       if($val != 0 ){
+        $liste_poids_objets[$i-2] = $val;
+       }
+    }
+     $i++;
+   }
+
+   $structure = array(
+    "nom_inst" =>  $instance,
+    "capacite" => $capacite ,
+    "nombre_objets" => $nombre_objets,
+    "liste_poids_objets" => $liste_poids_objets
+  );
+
+return $structure;
+}
+
+
+
+function lire_instance_U($instance){
+  $ressource = fopen('./assets/Falkenauer/Falkenauer U/'.$instance, 'rb'); 
+$liste_poids_objets=array();
+  $i = 0;
+   while(!feof($ressource)){
+    $p = fgets($ressource);
+    if($i == 0 ){
+      $nombre_objets = intval($p);
+    }
+    if($i == 1 ){
+      $capacite = intval($p);
+    }
+    if($i >= 2){
+       $val = intval($p);
+       if($val != 0 ){
+        $liste_poids_objets[$i-2] = $val;
+       }
+    }
+     $i++;
+   }
+
+   $structure = array(
+    "nom_inst" =>  $instance,
+    "capacite" => $capacite ,
+    "nombre_objets" => $nombre_objets,
+    "liste_poids_objets" => $liste_poids_objets
+  );
+
+return $structure;
+}
 
 
  ?>
