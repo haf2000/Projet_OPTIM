@@ -1860,23 +1860,29 @@ class TempsBin {
 
 
 
-const res = [];
+var res = new Array();
 const donnBB = [];
 const labBB = [];
 for (var i = 0; i < methodeBB.length; i++) {
 
-res[i] = new TempsBin(methodeBB_nombrebins[i],methodeBB[i])
+res[i] = new TempsBin(parseInt(methodeBB_nombrebins[i]),methodeBB[i]);
 }
-
-res.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+// function compare(a, b) {
+//   if (a.getNbBin() < b.getNbBin())
+//     console.log(-1);
+//      return -1;
+//   if (a.getNbBin() > b.getNbBin())
+//         console.log(1);
+//      return 1;
+  
+//   console.log(0);
+//   // a doit être égal à b
+//   return 0;
+// }
+res.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
-
+console.log(res);
 for (var i = 0; i < methodeBB.length; i++) {
  donnBB[i] = res[i].getTemps();
  labBB[i] = res[i].getNbBin();  
@@ -1917,7 +1923,7 @@ const config10 = {
 
    //----------------------------Charte 11--------------------------------
 
-const res2 = [];
+var res2 = [];
 
 const donnDP = [];
 const labDP = [];
@@ -1926,13 +1932,8 @@ for (var i = 0; i < methodePD.length; i++) {
 res2[i] = new TempsBin(methodePD_nombrebins[i],methodePD[i]);
 }
 
-res2.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+res2.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
 
 
@@ -1976,20 +1977,15 @@ const config11 = {
   );
 
  //----------------------------Charte 12--------------------------------
-const res3 = [];
+var res3 = [];
 const donnBF = [];
 const labBF = [];
 for (var i = 0; i < methodeBF.length; i++) {
 res3[i] = new TempsBin(methodeBF_nombrebins[i],methodeBF[i]);
 }
 
-res3.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+res3.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
 
 for (var i = 0; i < methodeBF.length; i++) {
@@ -2034,20 +2030,15 @@ const config12 = {
  //----------------------------Charte 15--------------------------------
 
 
-const res6 = [];
+var res6 = [];
 const donnWF = [];
 const labWF = [];
 for (var i = 0; i < methodeWF.length; i++) {
 res6[i] = new TempsBin(methodeWF_nombrebins[i],methodeWF[i]);
 }
 
-res6.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+res6.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
 
 for (var i = 0; i < methodeWF.length; i++) {
@@ -2093,20 +2084,15 @@ const config15 = {
 
    //----------------------------Charte 14--------------------------------
 
-const res5 = [];
+var res5 = [];
 const donnFF = [];
 const labFF = [];
 for (var i = 0; i < methodeFF.length; i++) {
 res5[i] = new TempsBin(methodeFF_nombrebins[i],methodeFF[i]);
 }
 
-res5.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+res5.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
 
 for (var i = 0; i < methodeNF.length; i++) {
@@ -2149,20 +2135,15 @@ const config14 = {
     config14
   );
  //----------------------------Charte 13--------------------------------
-const res4 = [];
+var res4 = [];
 const donnNF = [];
 const labNF = [];
 for (var i = 0; i < methodeNF.length; i++) {
 res4[i] = new TempsBin(methodeNF_nombrebins[i],methodeNF[i]);
 }
 
-res4.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+res4.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
 
 for (var i = 0; i < methodeNF.length; i++) {
@@ -2336,20 +2317,15 @@ const config9 = {
 
 //----------------------------Charte 18--------------------------------
 
-const res9 = [];
+var res9 = [];
 const donnRT = [];
 const labRT = [];
 for (var i = 0; i < methodeMT3.length; i++) {
 res9[i] = new TempsBin(methodeMT3_nombrebins[i],methodeMT3[i]);
 }
 
-res9.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+res9.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
 
 for (var i = 0; i < methodeMT2.length; i++) {
@@ -2396,20 +2372,15 @@ const config18 = {
 //----------------------------Charte 17--------------------------------
 
 
-const res8 = [];
+var res8 = [];
 const donnRS = [];
 const labRS = [];
 for (var i = 0; i < methodeMT2.length; i++) {
 res8[i] = new TempsBin(methodeMT2_nombrebins[i],methodeMT2[i]);
 }
 
-res8.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+res8.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
 
 for (var i = 0; i < methodeMT2.length; i++) {
@@ -2456,20 +2427,15 @@ const config17 = {
  
 //----------------------------Charte 16--------------------------------
 
-const res7 = [];
+var res7 = [];
 const donnAG = [];
 const labAG = [];
 for (var i = 0; i < methodeMT1.length; i++) {
 res7[i] = new TempsBin(methodeMT1_nombrebins[i],methodeMT1[i]);
 }
 
-res7.sort(function (a, b) {
-  if (a.getNbBin() < b.getNbBin())
-     return -1;
-  if (a.getNbBin() > b.getNbBin())
-     return 1;
-  // a doit être égal à b
-  return 0;
+res7.sort((a, b) => {
+    return a.getNbBin() - b.getNbBin();
 });
 
 for (var i = 0; i < methodeMT1.length; i++) {
