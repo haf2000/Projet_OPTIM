@@ -243,13 +243,13 @@ if ($result->num_rows > 0) {
 
 
 if($type == '0' or $type == '2'){
-$sql = "UPDATE resultats SET `poids_min`='$poids_min',`poids_max`='$poids_max',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solBB`='$solBB',`tempsBB`= '$tempsBB' WHERE id='$id'";
+$sql = "UPDATE resultats SET `poids_min`='$poids_min',`poids_max`='$poids_max',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solBB`='$solBB',`solution_optimale`='$solBB',`tempsBB`= '$tempsBB' WHERE id='$id'";
 }else{
   if($type == '1'){
-$sql = "UPDATE resultats SET `poids_moyen`='$poids_moyen',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solBB`='$solBB',`tempsBB`= '$tempsBB' WHERE id='$id'";
+$sql = "UPDATE resultats SET `poids_moyen`='$poids_moyen',`capacite`='$capacite',`nombre_objets`='$nombre_objets',`solBB`='$solBB',`solution_optimale`='$solBB',`tempsBB`= '$tempsBB' WHERE id='$id'";
   }else{
     // classe U ou T
-    $sql = "UPDATE resultats SET `capacite`='$capacite',`nombre_objets`='$nombre_objets',`solBB`='$solBB',`tempsBB`= '$tempsBB' WHERE id='$id'";
+    $sql = "UPDATE resultats SET `capacite`='$capacite',`nombre_objets`='$nombre_objets',`solBB`='$solBB',`solution_optimale`='$solBB',`tempsBB`= '$tempsBB' WHERE id='$id'";
   }
 
 }
